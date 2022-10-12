@@ -172,12 +172,12 @@
       class:minimised
   >
     <slot></slot>
-    <div
-        class="white-out"
-        class:active
-        on:mousedown={leftClickOnly(handleMoveStart)}
-    ></div>
   </div>
+  <div
+      class="white-out"
+      class:active
+      on:mousedown={leftClickOnly(handleMoveStart)}
+  ></div>
   <button
       class="resize"
       on:mousedown={leftClickOnly(handleResizeStart)}
