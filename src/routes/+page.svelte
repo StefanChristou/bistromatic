@@ -12,7 +12,7 @@
 <section>
   <figure class="pic">
     <img src="images/nature.jpg" alt="Not a picture of Stefan Christou. A pile of logs" />
-    <figcaption>A logpile house. © Stefan Christou 2021</figcaption>
+    <figcaption>A logpile house, Waltham Forrest. © Stefan Christou 2021</figcaption>
   </figure>
 </section>
 
