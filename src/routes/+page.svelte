@@ -1,4 +1,6 @@
-
+<script>
+  import Figure from "../lib/components/Figure.svelte";
+</script>
 <svelte:head>
   <title>stefanchristou.com</title>
   <meta name="description" content="Stefan Christou's personal website" />
@@ -10,10 +12,7 @@
   </h1>
 </section>
 <section>
-  <figure class="pic">
-    <img src="images/nature.jpg" alt="Not a picture of Stefan Christou. A pile of logs" />
-    <figcaption>A logpile house, Waltham Forrest. © Stefan Christou 2021</figcaption>
-  </figure>
+  <Figure src="images/nature.jpg" alt="Not a picture of Stefan Christou. A pile of logs" caption="A logpile house, Waltham Forrest. © Stefan Christou 2021"></Figure>
 </section>
 
 <style>
@@ -28,20 +27,8 @@
   h1 {
     width: 100%;
     text-align: left;
-  }
-
-  .pic {
-    width: 100%;
-    max-width: 500px;
-    display: block;
-    padding: 2rem;
-  }
-
-  img {
-    width: 100%;
-  }
-
-  figcaption {
-    font-size: 0.7rem;
+    font-size: 3.5rem;
+    font-style: italic;
+    font-weight: 300;
   }
 </style>

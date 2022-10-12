@@ -8,7 +8,7 @@
 	--color-bg-2: hsl(0, 0%, 98%);
 	--color-theme-1: #ff3e00;
 	--color-theme-2: #069766;
-	--color-text: rgba(0, 0, 0, 0.7);
+	--color-text: rgba(0, 0, 0, 0.75);
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
 	font-family: var(--font-body);
@@ -39,8 +39,7 @@ body {
 }
 
 ::selection {
-	color: #57043e;
-	background: #eaea54;
+	background: #ffff54;
 }
 
 h1,
