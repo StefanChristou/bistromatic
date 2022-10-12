@@ -7,9 +7,9 @@
   import {onMount} from "svelte";
 
   const links = {
-    "words": {text: "words", component: Words},
-    "work": {text: "work", component: Work},
-    "who": {text: "who", component: Who},
+    "words": {text: "words", component: Words, initWidth: 1200, initHeight: 900},
+    "work": {text: "work", component: Work, initWidth: 1200, initHeight: 900},
+    "who": {text: "who", component: Who, initWidth: 800, initHeight: 800},
   };
 
   let openWindows = {};
@@ -101,9 +101,9 @@
 <section
     class="window"
 >
-  {#each Object.entries(openWindows) as [name, {component, zIndex, initX, initY}], i (name)}
+  {#each Object.entries(openWindows) as [name, {component, zIndex, initX, initY, initWidth, initHeight}], i (name)}
     <Window
-        {...{initX, initY, name, zIndex, active: name === selected}}
+        {...{initX, initY, name, zIndex, initWidth, initHeight, active: name === selected}}
         on:close={() => handleWindowClose(name)}
         on:active={() => handleMakeActive(name)}
         on:inactive={() => handleMakeInactive(name)}

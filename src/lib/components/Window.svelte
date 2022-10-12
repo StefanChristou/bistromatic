@@ -9,11 +9,14 @@
   export let minimised = false;
   export let maximised = false;
 
-  export let width = 1200;
-  export let height = 900;
+  export let initWidth = 1200;
+  export let initHeight = 900;
 
   export let initX = 50;
   export let initY = 50;
+
+  let width = 1200;
+  let height = 900;
 
   let x = 0;
   let y = 0;
@@ -23,6 +26,8 @@
   onMount(() => {
     x = initX;
     y = initY;
+    width = initWidth;
+    height = initHeight;
   });
 
   afterUpdate(() => {
@@ -172,11 +177,11 @@
         class:active
         on:mousedown={leftClickOnly(handleMoveStart)}
     ></div>
-    <button
-        class="resize"
-        on:mousedown={leftClickOnly(handleResizeStart)}
-    >R</button>
   </div>
+  <button
+      class="resize"
+      on:mousedown={leftClickOnly(handleResizeStart)}
+  >R</button>
 </section>
 
 <style>
@@ -248,6 +253,7 @@
     width: calc(100% - 6px);
     height: calc(100% - 29px);
     padding: 3px;
+    overflow: auto;
   }
 
   button {
