@@ -4,6 +4,7 @@
   import Words from "./window-contents/Words.svelte";
   import Work from "./window-contents/Work.svelte";
   import Who from "./window-contents/Who.svelte";
+  import {onMount} from "svelte";
 
   const links = {
     "words": {text: "words", component: Words},
@@ -12,20 +13,19 @@
   };
 
   let openWindows = {};
+  let open;
 
-  let selected = "all";
+  let selected = "";
 
-  function handleLinkClick(event) {
-    event.preventDefault();
-    selected = event.detail.path || "";
-
+  function openWindow(path) {
     const highestZIndex = Math.max(...Object.values(openWindows).map(w => w.zIndex), 0);
     const length = Object.keys(openWindows).length;
+    selected = path;
 
     openWindows = {
       ...openWindows,
-      [selected]: {
-        ...links[selected],
+      [path]: {
+        ...links[path],
         zIndex: highestZIndex + 1,
         initX: 50 + 10 * (length + 1),
         initY: 50 + 10 * (length + 1),
@@ -33,10 +33,37 @@
     };
   }
 
+  onMount(() => {
+    open = new URL(window.location.href).searchParams.get("open").split(",");
+
+    open.forEach(id => {
+      if (id) {
+        openWindow(id);
+      }
+    });
+  });
+
+  function addStringsToQueryParam() {
+    const newUrl = new URL(window.location.href);
+    if (Object.keys(openWindows).length) {
+      newUrl.searchParams.set("open", Object.keys(openWindows).join(","));
+    } else {
+      newUrl.searchParams.delete("open");
+    }
+    window.history.pushState({}, "", newUrl);
+  }
+
+  function handleLinkClick(event) {
+    openWindow(event.detail.path || "");
+    addStringsToQueryParam();
+  }
+
   function handleWindowClose(path) {
+    selected = "";
     openWindows = Object.fromEntries(
       Object.entries(openWindows).filter(([key]) => key !== path)
     );
+    addStringsToQueryParam();
   }
 
   function handleMakeActive(path) {
