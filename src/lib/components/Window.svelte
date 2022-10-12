@@ -1,5 +1,6 @@
 <script>
   import {createEventDispatcher, onMount, afterUpdate} from "svelte";
+  import leftClickOnly from "../helpers/leftClickOnly";
 
   export let zIndex = 1;
   export let name = "name";
@@ -31,14 +32,6 @@
   })
 
   const dispatch = createEventDispatcher();
-
-  function leftClickOnly(func) {
-    return function (event) {
-      if (event.button === 0) {
-        return func(event);
-      }
-    }
-  }
 
   function handleCloseClick() {
     dispatch("close", name);
