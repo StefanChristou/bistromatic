@@ -5,11 +5,31 @@
   import Work from "./window-contents/Work.svelte";
   import Who from "./window-contents/Who.svelte";
   import {onMount} from "svelte";
+  import BoomiDataVis from "./window-contents/work-pages/BoomiDataVis.svelte";
+  import ComicSans from "./window-contents/work-pages/ComicSans.svelte";
+  import NGSBuild from "./window-contents/work-pages/NGSBuild.svelte";
 
-  const links = {
+  const workLinks = {
+    "Boomi data-visualisation": {
+      text: "Boomi", component: BoomiDataVis, initWidth: 1200, initHeight: 900,
+    },
+    "Comic Sans Ultralight": {
+      text: "Ultralight", component: ComicSans, initWidth: 800, initHeight: 900,
+    },
+    "National Garden Scheme Site build": {
+      text: "NGS", component: NGSBuild, initWidth: 800, initHeight: 900,
+    },
+  };
+
+  const mainLinks = {
     "words": {text: "words", component: Words, initWidth: 1200, initHeight: 900},
-    "work": {text: "work", component: Work, initWidth: 1200, initHeight: 900},
+    "work": {text: "work", component: Work, initWidth: 1200, initHeight: 900, links: workLinks},
     "who": {text: "who", component: Who, initWidth: 800, initHeight: 800},
+  };
+
+  const allLinks = {
+    ...mainLinks,
+    ...workLinks
   };
 
   let openWindows = {};
@@ -25,7 +45,7 @@
     openWindows = {
       ...openWindows,
       [path]: {
-        ...links[path],
+        ...allLinks[path],
         zIndex: highestZIndex + 1,
         initX: 50 + 10 * (length + 1),
         initY: 50 + 10 * (length + 1),
@@ -61,7 +81,7 @@
   function handleWindowClose(path) {
     selected = "";
     openWindows = Object.fromEntries(
-      Object.entries(openWindows).filter(([key]) => key !== path)
+        Object.entries(openWindows).filter(([key]) => key !== path)
     );
     addStringsToQueryParam();
   }
@@ -93,7 +113,7 @@
 </script>
 
 <NavigationBar
-    {links}
+    links={mainLinks}
     {selected}
     on:linkClick={handleLinkClick}
 />
@@ -101,14 +121,22 @@
 <section
     class="window"
 >
-  {#each Object.entries(openWindows) as [name, {component, zIndex, initX, initY, initWidth, initHeight}], i (name)}
+  {#each Object.entries(openWindows) as [name, {
+    component,
+    zIndex,
+    initX,
+    initY,
+    initWidth,
+    initHeight,
+    links
+  }], i (name)}
     <Window
         {...{initX, initY, name, zIndex, initWidth, initHeight, active: name === selected}}
         on:close={() => handleWindowClose(name)}
         on:active={() => handleMakeActive(name)}
         on:inactive={() => handleMakeInactive(name)}
     >
-      <svelte:component this={component} />
+      <svelte:component this={component} {links} on:linkClick={handleLinkClick}/>
     </Window>
   {/each}
 </section>

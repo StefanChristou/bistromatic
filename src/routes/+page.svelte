@@ -1,5 +1,5 @@
 <script>
-  import Figure from "../lib/components/Figure.svelte";
+  import Figure from "../lib/components/shared/Figure.svelte";
 </script>
 <svelte:head>
   <title>stefanchristou.com</title>
