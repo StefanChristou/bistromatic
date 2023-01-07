@@ -4,7 +4,7 @@
   export let image = {};
   export let text = '';
 
-  const padding = Math.random() * 10 + 'rem';
+  const padding = Math.random() * 2 + 'rem';
 </script>
 
 <div class="card" style:padding>
@@ -27,6 +27,7 @@
     background: lightgray;
     position: relative;
     box-sizing: content-box;
+    margin: 0 1rem 1rem 0;
   }
 
   img {
