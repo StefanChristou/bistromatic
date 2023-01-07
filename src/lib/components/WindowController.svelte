@@ -8,6 +8,9 @@
   import BoomiDataVis from "./window-contents/work-pages/BoomiDataVis.svelte";
   import ComicSans from "./window-contents/work-pages/ComicSans.svelte";
   import NGSBuild from "./window-contents/work-pages/NGSBuild.svelte";
+  import ElSayHPark from "./window-contents/work-pages/ElSayHPark .svelte";
+  import MerchantGourmet from "./window-contents/work-pages/MerchantGourmet.svelte";
+  import BakerHughesDataVis from "./window-contents/work-pages/BakerHughesDataVis.svelte";
 
   const workLinks = {
     "Boomi data-visualisation": {
@@ -18,6 +21,15 @@
     },
     "National Garden Scheme Site build": {
       text: "NGS", component: NGSBuild, initWidth: 800, initHeight: 900,
+    },
+    "El Say h' Park": {
+      text: "El Say h’ Park", component: ElSayHPark, initWidth: 800, initHeight: 900,
+    },
+    "Merchant Gourmet site build": {
+      text: "Merchant Gourmet", component: MerchantGourmet, initWidth: 800, initHeight: 900,
+    },
+    "Baker Hughes data-visualisation": {
+      text: "Baker Hughes", component: BakerHughesDataVis, initWidth: 800, initHeight: 900,
     },
   };
 

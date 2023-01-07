@@ -3,6 +3,7 @@
   import PageHeading from "../shared/PageHeading.svelte";
   import {createEventDispatcher} from "svelte";
   import LinkyCard from "../shared/LinkyCard.svelte";
+  import Paragraph from "../shared/Paragraph.svelte";
 
   export let links = {};
   const dispatch = createEventDispatcher();
@@ -10,17 +11,32 @@
     {
       text: "Comic Sans Ultralight",
       path: "Comic Sans Ultralight",
-      image: {src: "images/comic-sans-ultralight.jpg", alt: "Thumbnail image showing Comic Sans Ultralight font"}
+      image: {src: "images/comic-sans-ultralight.jpg", alt: "Thumbnail image showing Comic Sans Ultralight font. The quick brown fox jumps over the lazy dog. There is a gaudy background of starts and a tree on a hill."},
     },
     {
       text: "Boomi Data-vis",
       path: "Boomi data-visualisation",
-      image: {src: "images/boomi-data-vis.png", alt: "Thumbnail showing screenshot of Boomi data visualisation"}
+      image: {src: "images/boomi-data-vis.png", alt: "Thumbnail showing screenshot of Boomi data visualisation. Orange and blue circles are arranged in a bar chart."}
     },
     {
       text: "NGS Site Build",
       path: "National Garden Scheme Site build",
-      image: {src: "images/ngs-in-situ.jpg", alt: "Thumbnail showing National Garden Scheme website"}
+      image: {src: "images/ngs-in-situ.jpg", alt: "Thumbnail showing National Garden Scheme website. It has a yellow and black colour scheme."}
+    },
+    {
+      text: "El Say h’ Park",
+      path: "El Say h’ Park",
+      image: {src: "images/el-s-park-icon.jpg", alt: "Thumbnail showing the laser cut edge of an art book. The words el say h’ park are formed into the edge."}
+    },
+    {
+      text: "Merchant Gourmet site build",
+      path: "Merchant Gourmet site build",
+      image: {src: "images/merchant-gourmet-icon.png", alt: "Thumbnail screenshot of the Merchant Gourmet website"}
+    },
+    {
+      text: "Baker Hughes Data-vis",
+      path: "Baker Hughes data-visualisation",
+      image: {src: "images/baker-hughes-screenshot.png", alt: "Thumbnail showing screenshot of Baker Hughes data visualisation. Bubbles representing data are coloured in shades of green to represent how prepared companies in different regions and sectors are prepared to meet their net zero CO2 targets."}
     },
   ];
 
@@ -33,6 +49,7 @@
 <NavigationBar {links} on:linkClick={(e) => emitLinkClick(e.detail.path)}/>
 
 <PageHeading>Work</PageHeading>
+<Paragraph>The links on this page are a small selection of my professional works over the past few years. Many of the projhects I have worked on are internal tools or are strictly behind a paywall. I'll try to include as much as I can about those projects in the near future.</Paragraph>
 
 <div class="flex-container">
   {#each works as {text, path, image}}

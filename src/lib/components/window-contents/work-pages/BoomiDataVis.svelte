@@ -6,7 +6,7 @@
 
 <PageHeading>Boomi - data vis</PageHeading>
 
-<iframe width="100%" height="800px" src="https://main.dticqtqdkpoh7.amplifyapp.com/" frameborder="none"></iframe>
+<iframe title="Boomi - data vis" width="100%" height="800px" src="https://main.dticqtqdkpoh7.amplifyapp.com/"></iframe>
 
 <Paragraph>This is a data visualisation created for the Financial Times' company Longitude.</Paragraph>
 
