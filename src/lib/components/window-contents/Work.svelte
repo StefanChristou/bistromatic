@@ -7,7 +7,21 @@
   export let links = {};
   const dispatch = createEventDispatcher();
   const works = [
-    {text: "Comic Sans Ultralight", path: "Comic Sans Ultralight", image: {src: "images/comic-sans-ultralight.jpg", alt: "Sexy?"}},
+    {
+      text: "Comic Sans Ultralight",
+      path: "Comic Sans Ultralight",
+      image: {src: "images/comic-sans-ultralight.jpg", alt: "Thumbnail image showing Comic Sans Ultralight font"}
+    },
+    {
+      text: "Boomi Data-vis",
+      path: "Boomi data-visualisation",
+      image: {src: "images/boomi-data-vis.png", alt: "Thumbnail showing screenshot of Boomi data visualisation"}
+    },
+    {
+      text: "NGS Site Build",
+      path: "National Garden Scheme Site build",
+      image: {src: "images/ngs-in-situ.jpg", alt: "Thumbnail showing National Garden Scheme website"}
+    },
   ];
 
   function emitLinkClick(path) {
@@ -16,13 +30,15 @@
 
 </script>
 
-<NavigationBar {links} on:linkClick={(e) => emitLinkClick(e.detail.path)} />
+<NavigationBar {links} on:linkClick={(e) => emitLinkClick(e.detail.path)}/>
 
 <PageHeading>Work</PageHeading>
 
-{#each works as {text, path, image}}
-  <div on:click={() => emitLinkClick(path)}>
-    <LinkyCard {image} {text} />
-  </div>
-{/each}
+<div class="flex-container">
+  {#each works as {text, path, image}}
+    <button on:click={() => emitLinkClick(path)} class="un-styled-button">
+      <LinkyCard {image} {text} />
+    </button>
+  {/each}
+</div>
 
