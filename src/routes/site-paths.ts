@@ -2,7 +2,7 @@ export const mainPaths = {
   home: '',
   words: 'words',
   work: 'work',
-  who: 'who',
+  qAndA: 'q-and-a',
 };
 
 export const workPaths = {

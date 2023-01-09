@@ -35,9 +35,9 @@
   };
 
   const mainLinks = {
-    [mainPaths.words]: {text: "words", component: Words, initWidth: 1200, initHeight: 900},
-    [mainPaths.work]: {text: "work", component: Work, initWidth: 1200, initHeight: 900, links: workLinks},
-    [mainPaths.who]: {text: "who", component: Who, initWidth: 800, initHeight: 800},
+    [mainPaths.words]: {text: "Words", component: Words, initWidth: 1200, initHeight: 900},
+    [mainPaths.work]: {text: "Work", component: Work, initWidth: 1200, initHeight: 900, links: workLinks},
+    [mainPaths.qAndA]: {text: "Q&A", component: Who, initWidth: 800, initHeight: 800},
   };
 
   const allLinks = {
