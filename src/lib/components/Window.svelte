@@ -21,6 +21,9 @@
   let x = 0;
   let y = 0;
 
+  const edgePadding = 30;
+  const leftPadding = 100;
+
   let eventMousePosition = {x: 0, y: 0};
 
   onMount(() => {
@@ -36,20 +39,26 @@
     }
   })
 
+
   const dispatch = createEventDispatcher();
-
-  function handleCloseClick() {
-    dispatch("close", name);
-  }
-
+  // Tell the parent that the window should be active
   function dispatchActive() {
     dispatch("active", name);
   }
 
+  // Tel the parent that the window should be inactive
   function dispatchInactive() {
     dispatch("inactive", name);
   }
 
+  // Handle user clicks //
+
+  // Close
+  function handleCloseClick() {
+    dispatch("close", name);
+  }
+
+  // Minimise
   function handleMinimiseToggleClick() {
     minimised = !minimised;
 
@@ -61,6 +70,7 @@
     }
   }
 
+  // Maximise
   function handleMaximiseToggleClick() {
     maximised = !maximised;
 
@@ -70,23 +80,14 @@
     dispatchActive();
   }
 
-  function moveWindow(event) {
-    const newX = x + event.clientX - eventMousePosition.x;
-    const newY = y + event.clientY - eventMousePosition.y;
-    const edgePadding = 30;
-    const leftPadding = 100;
+  // Change window properties //
+  // Move Y
+  function moveWindowY({clientY}) {
+    const newY = y + clientY - eventMousePosition.y;
 
-    if (newX >= -(width - leftPadding) && newX <= window.innerWidth - edgePadding) {
-      x += event.clientX - eventMousePosition.x;
-      eventMousePosition = {...eventMousePosition, x: event.clientX};
-    } else if (newX < -(width - leftPadding)) {
-      x = -(width - leftPadding);
-    } else if (newX > window.innerWidth) {
-      x = window.innerWidth - edgePadding;
-    }
     if (newY >= 0 && newY <= window.innerHeight - edgePadding) {
-      y += event.clientY - eventMousePosition.y;
-      eventMousePosition = {...eventMousePosition, y: event.clientY};
+      y += clientY - eventMousePosition.y;
+      eventMousePosition = {...eventMousePosition, y: clientY};
     } else if (newY < 0) {
       y = 0;
     } else if (newY > window.innerHeight) {
@@ -94,30 +95,29 @@
     }
   }
 
-  function handleMoveStart(event) {
-    if (minimised) {
-      dispatchActive();
-      return;
-    }
-    eventMousePosition = {x: event.clientX, y: event.clientY};
-    document.addEventListener("mousemove", moveWindow);
-    document.addEventListener("mouseup", handleMoveEnd);
-    dispatchActive();
-  }
+  // Move X
+  function moveWindowX({clientX}) {
+    const newX = x + clientX - eventMousePosition.x;
 
-  function handleMoveEnd() {
-    document.removeEventListener("mousemove", moveWindow);
-    document.removeEventListener("mouseup", handleMoveEnd);
-  }
-
-  function resizeWindow({clientX, clientY}) {
-    const newWidth = width + (clientX - eventMousePosition.x);
-    const newHeight = height + (clientY - eventMousePosition.y);
-
-    if (newWidth > 200) {
-      width = newWidth;
+    if (newX >= -(width - leftPadding) && newX <= window.innerWidth - edgePadding) {
+      x += clientX - eventMousePosition.x;
       eventMousePosition = {...eventMousePosition, x: clientX};
+    } else if (newX < -(width - leftPadding)) {
+      x = -(width - leftPadding);
+    } else if (newX > window.innerWidth) {
+      x = window.innerWidth - edgePadding;
     }
+  }
+
+  // Move XY
+  function moveWindow({clientX, clientY}) {
+    moveWindowY({clientY});
+    moveWindowX({clientX});
+  }
+
+  // Resize Y from bottom
+  function resizeWindowHeight({clientY}) {
+    const newHeight = height + (clientY - eventMousePosition.y);
 
     if (newHeight > 100) {
       height = newHeight;
@@ -125,7 +125,8 @@
     }
   }
 
-  function resizeWindowRight({clientX}) {
+  // Resize X from right
+  function resizeWindowWidth({clientX}) {
     const newWidth = width + (clientX - eventMousePosition.x);
 
     if (newWidth > 200) {
@@ -134,53 +135,177 @@
     }
   }
 
+  // Resize from bottom right
+  function resizeWindowFromBottomRight({clientX, clientY}) {
+    resizeWindowHeight({clientY});
+    resizeWindowWidth({clientX});
+  }
+
+  // Resize from bottom left
+  function resizeWindowFromBottomLeft({clientX, clientY}) {
+    resizeWindowHeight({clientY});
+    resizeWindowWidthFromLeft({clientX});
+    moveWindowX({clientX});
+  }
+
+  // Resize from top left
+  function resizeWindowFromTopLeft({clientX, clientY}) {
+    resizeWindowHeightFromTop({clientY});
+    resizeWindowWidthFromLeft({clientX});
+    moveWindow({clientX, clientY});
+  }
+
+  // Resize Y from top
+  function resizeWindowHeightFromTop({clientY}) {
+    const newHeight = height - (clientY - eventMousePosition.y);
+
+    if (newHeight > 100) {
+      height = newHeight;
+    }
+  }
+
+  // Resize X from left
+  function resizeWindowWidthFromLeft({clientX}) {
+    const newWidth = width - (clientX - eventMousePosition.x);
+
+    if (newWidth > 200) {
+      width = newWidth;
+    }
+  }
+
+  // Resize from top
+  function resizeFromTop({clientY}) {
+    resizeWindowHeightFromTop({clientY});
+    moveWindowY({clientY});
+  }
+
+  // Resize from bottom
+  function resizeFromBottom({clientY}) {
+    resizeWindowFromBottomRight({clientY});
+  }
+
+  // Resize from left
+  function resizeFromLeft({clientX}) {
+    resizeWindowWidthFromLeft({clientX});
+    moveWindowX({clientX});
+  }
+
+  // Resize from top right
+  function resizeFromTopRight({clientY, clientX}) {
+    resizeWindowHeightFromTop({clientY});
+    resizeWindowWidth({clientX});
+    moveWindowY({clientY});
+  }
+
+
+  // Setup resize/move //
+
+  // Set mouse position start point
   function setResizeMousePosition({clientX, clientY}) {
     eventMousePosition = {x: clientX, y: clientY};
   }
 
-  function handleResizeStart({clientX, clientY}) {
+  // Set mouse position start point and dispatch window as active
+  function setupMouseAndMakeWindowActive({clientX, clientY}) {
     setResizeMousePosition({clientX, clientY});
-    window.addEventListener("mousemove", resizeWindow);
-    window.addEventListener("mouseup", handleResizeEnd);
     dispatchActive();
   }
 
-  function handleResizeEnd() {
-    window.removeEventListener("mousemove", resizeWindow);
-    window.removeEventListener("mouseup", handleResizeEnd);
+  // Add/remove event listeners for resizing/moving
+  // Add
+  function addMoveAndUpEventListeners(moveCallback) {
+    window.onmousemove = moveCallback;
+    window.onmouseup = removeMoveAndUpEventListeners;
   }
 
+  // Remove
+  function removeMoveAndUpEventListeners() {
+    window.onmousemove = null;
+    window.onmouseup = null;
+  }
+
+
+  // Handlers for the window controls //
+  // Move //
+  function handleMoveStart(event) {
+    if (minimised) {
+      dispatchActive();
+      return;
+    }
+    eventMousePosition = {x: event.clientX, y: event.clientY};
+    addMoveAndUpEventListeners(moveWindow);
+    dispatchActive();
+  }
+
+  // Resize from edges
+  // Top
+  function handleResizeTopStart({clientX, clientY}) {
+    setupMouseAndMakeWindowActive({clientX, clientY});
+    addMoveAndUpEventListeners(resizeFromTop);
+  }
+
+  // Right
   function handleResizeRightStart({clientX, clientY}) {
-    setResizeMousePosition({clientX, clientY});
-    window.addEventListener("mousemove", resizeWindowRight);
-    window.addEventListener("mouseup", handleResizeRightEnd);
-    dispatchActive();
+    setupMouseAndMakeWindowActive({clientX, clientY});
+    addMoveAndUpEventListeners(resizeWindowWidth);
   }
 
-  function handleResizeRightEnd() {
-    window.removeEventListener("mousemove", resizeWindowRight);
-    window.removeEventListener("mouseup", handleResizeRightEnd);
+  // Bottom
+  function handleResizeBottomStart({clientX, clientY}) {
+    setupMouseAndMakeWindowActive({clientX, clientY});
+    addMoveAndUpEventListeners(resizeFromBottom);
+  }
+
+  // Left
+  function handleResizeLeftStart({clientX, clientY}) {
+    setupMouseAndMakeWindowActive({clientX, clientY});
+    addMoveAndUpEventListeners(resizeFromLeft);
+  }
+
+  // Resize from corners //
+  // Top right
+  function handleResizeTopRightStart({clientX, clientY}) {
+    setupMouseAndMakeWindowActive({clientX, clientY});
+    addMoveAndUpEventListeners(resizeFromTopRight);
+  }
+
+  // Bottom right
+  function handleResizeBottomRightStart({clientX, clientY}) {
+    setupMouseAndMakeWindowActive({clientX, clientY});
+    addMoveAndUpEventListeners(resizeWindowFromBottomRight);
+  }
+
+  // Bottom left
+  function handleResizeBottomLeftStart({clientX, clientY}) {
+    setupMouseAndMakeWindowActive({clientX, clientY});
+    addMoveAndUpEventListeners(resizeWindowFromBottomLeft);
+  }
+
+  // Top left
+  function handleResizeTopLeftStart({clientX, clientY}) {
+    setupMouseAndMakeWindowActive({clientX, clientY});
+    addMoveAndUpEventListeners(resizeWindowFromTopLeft);
   }
 
 </script>
 
 <section
-    class="window"
-    class:minimised
-    class:maximised
-    class:active
-    style:left={minimised || maximised ? 0 : x + 'px'}
-    style:top={minimised || maximised ? 0 : y + 'px'}
-    style:width={minimised ? 150 + 'px' : maximised ? '100vw' : width + 'px'}
-    style:height={minimised ? 23 + 'px' : maximised ? '100vh' : height + 'px'}
-    style:z-index={zIndex}
+  class="window"
+  class:minimised
+  class:maximised
+  class:active
+  style:left={minimised || maximised ? 0 : x + 'px'}
+  style:top={minimised || maximised ? 0 : y + 'px'}
+  style:width={minimised ? 150 + 'px' : maximised ? '100vw' : width + 'px'}
+  style:height={minimised ? 23 + 'px' : maximised ? '100vh' : height + 'px'}
+  style:z-index={zIndex}
 >
   <div
-      class="title-bar"
-      on:mousedown|self={leftClickOnly(handleMoveStart)}
+    class="title-bar"
+    on:mousedown|self={leftClickOnly(handleMoveStart)}
   >
     <h2
-        on:mousedown|self={leftClickOnly(handleMoveStart)}
+      on:mousedown|self={leftClickOnly(handleMoveStart)}
     >{text}</h2>
     <div class="control-container">
       <button on:click={leftClickOnly(handleMinimiseToggleClick)}>_</button>
@@ -189,25 +314,50 @@
     </div>
   </div>
   <div
-      class="inner"
-      class:minimised
+    class="inner"
+    class:minimised
   >
     <slot></slot>
   </div>
   <div
-      class="white-out"
-      class:active
-      on:mousedown={leftClickOnly(handleMoveStart)}
+    class="white-out"
+    class:active
+    on:mousedown={leftClickOnly(handleMoveStart)}
   ></div>
   <button
-      class="resize"
-      on:mousedown={leftClickOnly(handleResizeStart)}
-  >R</button>
-  <button
-      class="resize-right"
-      on:mousedown={leftClickOnly(handleResizeRightStart)}>
-
+    class="resize-top"
+    on:mousedown={leftClickOnly(handleResizeTopStart)}>
   </button>
+  <button
+    class="resize-right"
+    on:mousedown={leftClickOnly(handleResizeRightStart)}>
+  </button>
+  <button
+    class="resize-bottom"
+    on:mousedown={leftClickOnly(handleResizeBottomStart)}>
+  </button>
+  <button
+    class="resize-left"
+    on:mousedown={leftClickOnly(handleResizeLeftStart)}>
+  </button>
+  <button
+    class="resize-top-right"
+    on:mousedown={leftClickOnly(handleResizeTopRightStart)}
+  ></button>
+  <button
+    class="resize-bottom-right"
+    on:mousedown={leftClickOnly(handleResizeBottomRightStart)}
+  >R
+  </button>
+  <button
+    class="resize-bottom-left"
+    on:mousedown={leftClickOnly(handleResizeBottomLeftStart)}
+  ></button>
+  <button
+    class="resize-top-left"
+    on:mousedown={leftClickOnly(handleResizeTopLeftStart)}
+  ></button>
+
 </section>
 
 <style>
@@ -260,6 +410,7 @@
     font-weight: 200;
     position: relative;
     user-select: none;
+    cursor: move;
   }
 
   .control-container {
@@ -286,7 +437,82 @@
     cursor: pointer;
   }
 
-  .resize {
+  .resize-right {
+    position: absolute;
+    bottom: 0;
+    right: -2px;
+    top: 0;
+    width: 4px;
+    font-size: 0.5rem;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    cursor: ew-resize;
+  }
+
+  .resize-left {
+    position: absolute;
+    bottom: 0;
+    left: -2px;
+    top: 0;
+    width: 4px;
+    font-size: 0.5rem;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    cursor: ew-resize;
+  }
+
+  .resize-top {
+    position: absolute;
+    top: -2px;
+    right: 0;
+    left: 0;
+    height: 4px;
+    font-size: 0.5rem;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    cursor: ns-resize;
+  }
+
+  .resize-bottom {
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    left: 0;
+    height: 4px;
+    font-size: 0.5rem;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    cursor: ns-resize;
+  }
+
+  .resize-top-right {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    height: 6px;
+    width: 6px;
+    font-size: 0.5rem;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    cursor: nesw-resize;
+  }
+
+  .resize-bottom-right {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -301,19 +527,34 @@
     cursor: nwse-resize;
   }
 
-  .resize-right {
+  .resize-bottom-left {
     position: absolute;
-    bottom: 0;
-    right: -2px;
-    top: 0;
-    width: 4px;
+    bottom: -3px;
+    left: -3px;
+    height: 6px;
+    width: 6px;
     font-size: 0.5rem;
     background: none;
     border: none;
     border-radius: 0;
     padding: 0;
     margin: 0;
-    cursor: ew-resize;
+    cursor: nesw-resize;
+  }
+
+  .resize-top-left {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    height: 6px;
+    width: 6px;
+    font-size: 0.5rem;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    cursor: nwse-resize;
   }
 
   .inner.minimised {
