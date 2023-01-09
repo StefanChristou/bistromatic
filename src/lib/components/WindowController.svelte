@@ -11,32 +11,33 @@
   import ElSayHPark from "./window-contents/work-pages/ElSayHPark .svelte";
   import MerchantGourmet from "./window-contents/work-pages/MerchantGourmet.svelte";
   import BakerHughesDataVis from "./window-contents/work-pages/BakerHughesDataVis.svelte";
+  import {mainPaths, workPaths} from "../../routes/site-paths.ts";
 
   const workLinks = {
-    "Boomi data-visualisation": {
+    [workPaths.boomi]: {
       text: "Boomi", component: BoomiDataVis, initWidth: 1200, initHeight: 900,
     },
-    "Comic Sans Ultralight": {
-      text: "Ultralight", component: ComicSans, initWidth: 800, initHeight: 900,
+    [workPaths.comicUltraLight]: {
+      text: "CS Ultralight", component: ComicSans, initWidth: 800, initHeight: 900,
     },
-    "National Garden Scheme Site build": {
+    [workPaths.ngs]: {
       text: "NGS", component: NGSBuild, initWidth: 800, initHeight: 900,
     },
-    "El Say h' Park": {
+    [workPaths.elPark]: {
       text: "El Say h’ Park", component: ElSayHPark, initWidth: 800, initHeight: 900,
     },
-    "Merchant Gourmet site build": {
+    [workPaths.merchantGourmet]: {
       text: "Merchant Gourmet", component: MerchantGourmet, initWidth: 800, initHeight: 900,
     },
-    "Baker Hughes data-visualisation": {
+    [workPaths.bakerHughes]: {
       text: "Baker Hughes", component: BakerHughesDataVis, initWidth: 800, initHeight: 900,
     },
   };
 
   const mainLinks = {
-    "words": {text: "words", component: Words, initWidth: 1200, initHeight: 900},
-    "work": {text: "work", component: Work, initWidth: 1200, initHeight: 900, links: workLinks},
-    "who": {text: "who", component: Who, initWidth: 800, initHeight: 800},
+    [mainPaths.words]: {text: "words", component: Words, initWidth: 1200, initHeight: 900},
+    [mainPaths.work]: {text: "work", component: Work, initWidth: 1200, initHeight: 900, links: workLinks},
+    [mainPaths.who]: {text: "who", component: Who, initWidth: 800, initHeight: 800},
   };
 
   const allLinks = {
@@ -133,7 +134,8 @@
 <section
     class="window"
 >
-  {#each Object.entries(openWindows) as [name, {
+  {#each Object.entries(openWindows) as [path, {
+    text,
     component,
     zIndex,
     initX,
@@ -141,12 +143,12 @@
     initWidth,
     initHeight,
     links
-  }], i (name)}
+  }], i (path)}
     <Window
-        {...{initX, initY, name, zIndex, initWidth, initHeight, active: name === selected}}
-        on:close={() => handleWindowClose(name)}
-        on:active={() => handleMakeActive(name)}
-        on:inactive={() => handleMakeInactive(name)}
+        {...{initX, initY, text, zIndex, initWidth, initHeight, active: path === selected}}
+        on:close={() => handleWindowClose(path)}
+        on:active={() => handleMakeActive(path)}
+        on:inactive={() => handleMakeInactive(path)}
     >
       <svelte:component this={component} {links} on:linkClick={handleLinkClick}/>
     </Window>

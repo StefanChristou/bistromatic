@@ -3,7 +3,7 @@
   import leftClickOnly from "../helpers/leftClickOnly";
 
   export let zIndex = 1;
-  export let name = "name";
+  export let text = "";
 
   export let active = false;
   export let minimised = false;
@@ -160,7 +160,7 @@
   >
     <h2
         on:mousedown|self={leftClickOnly(handleMoveStart)}
-    >{name}</h2>
+    >{text}</h2>
     <div class="control-container">
       <button on:click={leftClickOnly(handleMinimiseToggleClick)}>_</button>
       <button on:click={leftClickOnly(handleMaximiseToggleClick)}>[ ]</button>
