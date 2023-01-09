@@ -125,6 +125,15 @@
     }
   }
 
+  function resizeWindowRight({clientX}) {
+    const newWidth = width + (clientX - eventMousePosition.x);
+
+    if (newWidth > 200) {
+      width = newWidth;
+      eventMousePosition = {...eventMousePosition, x: clientX};
+    }
+  }
+
   function setResizeMousePosition({clientX, clientY}) {
     eventMousePosition = {x: clientX, y: clientY};
   }
@@ -139,6 +148,18 @@
   function handleResizeEnd() {
     window.removeEventListener("mousemove", resizeWindow);
     window.removeEventListener("mouseup", handleResizeEnd);
+  }
+
+  function handleResizeRightStart({clientX, clientY}) {
+    setResizeMousePosition({clientX, clientY});
+    window.addEventListener("mousemove", resizeWindowRight);
+    window.addEventListener("mouseup", handleResizeRightEnd);
+    dispatchActive();
+  }
+
+  function handleResizeRightEnd() {
+    window.removeEventListener("mousemove", resizeWindowRight);
+    window.removeEventListener("mouseup", handleResizeRightEnd);
   }
 
 </script>
@@ -182,6 +203,11 @@
       class="resize"
       on:mousedown={leftClickOnly(handleResizeStart)}
   >R</button>
+  <button
+      class="resize-right"
+      on:mousedown={leftClickOnly(handleResizeRightStart)}>
+
+  </button>
 </section>
 
 <style>
@@ -273,6 +299,21 @@
     padding: 0;
     margin: 0;
     cursor: nwse-resize;
+  }
+
+  .resize-right {
+    position: absolute;
+    bottom: 0;
+    right: -2px;
+    top: 0;
+    width: 4px;
+    font-size: 0.5rem;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    cursor: ew-resize;
   }
 
   .inner.minimised {
