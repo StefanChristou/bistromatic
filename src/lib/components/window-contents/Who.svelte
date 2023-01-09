@@ -48,19 +48,16 @@
     multiple other lecturers working with me. I have managed and trained radio DJs. I sometimes form small outsourced
     teams for clients.</Paragraph>
 
-  <Subheading>We work with Agile and do some flavor of <span class="scrum">SCRUM</span>. Do you know what that is?</Subheading>
-  <Paragraph>I have a healthy knowledge of Agile and know when it is and isn't appropriate for an organisation. Foregoing <span
-      class="scrum">SCRUM</span>
-    mainly hinges on how appropriate it is for teams to bring agency to a project. In practice that means that if you
-    use outsourced teams, are a tech agency delivering for outside clients, or your core business is something other
-    than "technology", then use Agile <span class="scrum">SCRUM</span>. If you
-    are first and foremost a technology company then it's possible that Agile and <span class="scrum">SCRUM</span> might
-    serve to silo your teams
-    away from each other, from customers and stakeholders, and limit their ability to perform to the best of their
-    abilities. <span class="scrum">SCRUM</span> can be very useful, but should be assessed based on the goals, structure
-    and working styles of an organisation.</Paragraph>
+  <Subheading>We work with Agile and do some flavor of <span class="acronym">SCRUM</span>. Do you know what that is?</Subheading>
+  <Paragraph>I’ve worked with many flavours of Agile in my career as a developer and consultant. Many of the organisations
+    I’ve worked with use <span class="acronym">SCRUM</span>, but I also have experience with Kanban
+    and other processes. <span class="acronym">SCRUM</span> can be especially useful in agency environments and when working with
+    outsourced teams. Kanban can also work extremely well especially when multi-disciplinary teams are able to be properly aligned
+    with the companies goals and are able to get up close and personal with users and stakeholders. In any case, sticking
+    to agile principles of continuous delivery and self-organisation is key to the successful application of whichever methodology
+    a team uses.</Paragraph>
 
-  <Subheading>Errrr, yeahhhh. So... do you like other things?</Subheading>
+  <Subheading>So... do you like other things?</Subheading>
   <Paragraph>I'm interested in art and technology. Like a lot of programmers I read more science than I understand. I enjoy
     prototyping nonsense experiences on the web. I like cycling and hiking. I like thinking about people and the things
     we collectively go through as societies, that kind of boring stuff.</Paragraph>
@@ -123,7 +120,7 @@
     font-family: cursive;
   }
 
-  .scrum {
+  .acronym {
     font-variant: small-caps;
     font-size: 0.85em;
   }
