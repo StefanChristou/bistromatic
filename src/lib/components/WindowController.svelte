@@ -45,29 +45,27 @@
     ...workLinks
   };
 
-  let openWindows = {};
+  let openWindows = new Map();
   let open;
 
   let selected = "";
 
   function openWindow(path) {
-    const highestZIndex = Math.max(...Object.values(openWindows).map(w => w.zIndex), 0);
-    const length = Object.keys(openWindows).length;
+    const length = openWindows.size;
     selected = path;
 
-    openWindows = {
+    openWindows = new Map([
       ...openWindows,
-      [path]: {
+      [path, {
         ...allLinks[path],
-        zIndex: highestZIndex + 1,
         initX: 50 + 10 * (length + 1),
         initY: 50 + 10 * (length + 1),
-      }
-    };
+      }]
+    ]);
   }
 
   onMount(() => {
-    open = new URL(window.location.href).searchParams.get("open").split(",");
+    open = new URL(window.location.href).searchParams.get("open")?.split(",") || [];
 
     open.forEach(id => {
       if (id) {
@@ -78,8 +76,8 @@
 
   function addStringsToQueryParam() {
     const newUrl = new URL(window.location.href);
-    if (Object.keys(openWindows).length) {
-      newUrl.searchParams.set("open", Object.keys(openWindows).join(","));
+    if (openWindows.size) {
+      newUrl.searchParams.set("open", [...openWindows.keys()].join(","));
     } else {
       newUrl.searchParams.delete("open");
     }
@@ -93,34 +91,33 @@
 
   function handleWindowClose(path) {
     selected = "";
-    openWindows = Object.fromEntries(
-        Object.entries(openWindows).filter(([key]) => key !== path)
-    );
+    openWindows.delete(path);
     addStringsToQueryParam();
+
+    const previousWindowKey = [...openWindows.keys()][openWindows.size - 1]
+    if (previousWindowKey) {
+      handleMakeActive(previousWindowKey);
+    }
   }
 
   function handleMakeActive(path) {
     selected = path;
-    const highestZIndex = Math.max(...Object.values(openWindows).map(w => w.zIndex), 0);
-
-    openWindows = {
-      ...openWindows,
-      [path]: {
-        ...openWindows[path],
-        zIndex: highestZIndex + 1,
-      }
+    const highestZIndex = Math.max(...[...openWindows.values()].map(w => w.zIndex), 0);
+    const window = {
+      ...openWindows.get(path),
+      zIndex: highestZIndex + 1,
     };
+
+    openWindows.delete(path);
+    openWindows.set(path, window);
   }
 
   function handleMakeInactive(path) {
     selected = "";
-    openWindows = {
-      ...openWindows,
-      [path]: {
-        ...openWindows[path],
+    openWindows.set(path, {
+        ...openWindows.get(path),
         zIndex: 0,
-      }
-    };
+      });
   }
 
 </script>
@@ -134,7 +131,7 @@
 <section
     class="window"
 >
-  {#each Object.entries(openWindows) as [path, {
+  {#each [...openWindows.entries()] as [path, {
     text,
     component,
     zIndex,
@@ -145,7 +142,7 @@
     links
   }], i (path)}
     <Window
-        {...{initX, initY, text, zIndex, initWidth, initHeight, active: path === selected}}
+        {...{initX, initY, text, zIndex: i, initWidth, initHeight, active: path === selected}}
         on:close={() => handleWindowClose(path)}
         on:active={() => handleMakeActive(path)}
         on:inactive={() => handleMakeInactive(path)}
