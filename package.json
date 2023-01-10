@@ -8,8 +8,8 @@
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig tsconfig.json --watch",
-		"lint": "prettier --plugin-search-dir bistromatic --check . && eslint .",
-		"format": "prettier --plugin-search-dir bistromatic --write ."
+		"lint": "prettier --plugin-search-dir ./ --check . && eslint .",
+		"format": "prettier --plugin-search-dir ./ --write ."
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.0",

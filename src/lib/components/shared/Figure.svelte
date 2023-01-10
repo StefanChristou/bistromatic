@@ -1,31 +1,31 @@
 <script>
-  export let src = "";
-  export let alt = "";
-  export let caption = "";
+	export let src = '';
+	export let alt = '';
+	export let caption = '';
 </script>
 
 {#if src}
-  <figure>
-    <img {src} {alt}/>
-    {#if caption}
-      <figcaption>{caption}</figcaption>
-    {/if}
-  </figure>
+	<figure>
+		<img {src} {alt} />
+		{#if caption}
+			<figcaption>{caption}</figcaption>
+		{/if}
+	</figure>
 {/if}
 
 <style>
-  figure {
-    width: 100%;
-    max-width: 500px;
-    display: block;
-    padding: 2rem;
-  }
+	figure {
+		width: 100%;
+		max-width: 500px;
+		display: block;
+		padding: 2rem;
+	}
 
-  img {
-    width: 100%;
-  }
+	img {
+		width: 100%;
+	}
 
-  figcaption {
-    font-size: 0.7rem;
-  }
+	figcaption {
+		font-size: 0.7rem;
+	}
 </style>
