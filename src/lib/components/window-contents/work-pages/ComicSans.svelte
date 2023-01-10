@@ -20,7 +20,7 @@
   of
   smartphone-based-openGL-silicone-bumper-peripheral-vision-synapse-upselling-downsloap-upstream-ski-divisions, I give
   you……..!!!……….!!!!!!!!!!!!!!!!!!!!!!!!!………… <span class="huge">Comic Sans UltraLight!!!!!</span></Paragraph>
-<Paragraph class="small">Comic Sans UltraLight is in no way endorsed by, linked to, or Facebook friends with Microsoft
+<Paragraph>Comic Sans UltraLight is in no way endorsed by, linked to, or Facebook friends with Microsoft
   Corporation or any of its subsidiary companies, derivatives or amino-acids. As a derivative work, please make sure
   you are in possession of a licence for Comic Sans MS before using this font.
 </Paragraph>
