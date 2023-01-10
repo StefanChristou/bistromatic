@@ -15,14 +15,14 @@
   export let initX = 50;
   export let initY = 50;
 
-  let width = 1200;
-  let height = 900;
+  let width = initWidth;
+  let height = initHeight;
 
   let x = 0;
   let y = 0;
 
-  const edgePadding = 30;
-  const leftPadding = 100;
+  const bottomRightMoveBuffer = 30; // px
+  const leftMoveBuffer = 100; // px
 
   let eventMousePosition = {x: 0, y: 0};
 
@@ -85,13 +85,13 @@
   function moveWindowY({clientY}) {
     const newY = y + clientY - eventMousePosition.y;
 
-    if (newY >= 0 && newY <= window.innerHeight - edgePadding) {
+    if (newY >= 0 && newY <= window.innerHeight - bottomRightMoveBuffer) {
       y += clientY - eventMousePosition.y;
       eventMousePosition = {...eventMousePosition, y: clientY};
     } else if (newY < 0) {
       y = 0;
     } else if (newY > window.innerHeight) {
-      y = window.innerHeight - edgePadding;
+      y = window.innerHeight - bottomRightMoveBuffer;
     }
   }
 
@@ -99,13 +99,13 @@
   function moveWindowX({clientX}) {
     const newX = x + clientX - eventMousePosition.x;
 
-    if (newX >= -(width - leftPadding) && newX <= window.innerWidth - edgePadding) {
+    if (newX >= -(width - leftMoveBuffer) && newX <= window.innerWidth - bottomRightMoveBuffer) {
       x += clientX - eventMousePosition.x;
       eventMousePosition = {...eventMousePosition, x: clientX};
-    } else if (newX < -(width - leftPadding)) {
-      x = -(width - leftPadding);
+    } else if (newX < -(width - leftMoveBuffer)) {
+      x = -(width - leftMoveBuffer);
     } else if (newX > window.innerWidth) {
-      x = window.innerWidth - edgePadding;
+      x = window.innerWidth - bottomRightMoveBuffer;
     }
   }
 
