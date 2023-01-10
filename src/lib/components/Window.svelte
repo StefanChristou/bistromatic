@@ -26,11 +26,21 @@
 
 	let eventMousePosition = { x: 0, y: 0 };
 
+	function limitWidth(width) {
+		const maxWidth = window.innerWidth - leftMoveBuffer;
+		return Math.min(maxWidth, width);
+	}
+
+	function limitHeight(height) {
+		const maxHeight = window.innerHeight - leftMoveBuffer;
+		return Math.min(maxHeight, height);
+	}
+
 	onMount(() => {
 		x = initX;
 		y = initY;
-		width = initWidth;
-		height = initHeight;
+		width = limitWidth(initWidth);
+		height = limitHeight(initHeight);
 	});
 
 	afterUpdate(() => {
