@@ -6,7 +6,7 @@
 
 <PageHeading>National Garden Scheme site build</PageHeading>
 <Figure
-	src="images/ngs-in-situ.jpg"
+	src="/images/ngs-in-situ.jpg"
 	alt="Image of the National Garden Scheme website displayed on a laptop"
 />
 <Paragraph

@@ -5,7 +5,7 @@
 </script>
 
 <PageHeading>Merchant Gourmet site build</PageHeading>
-<Figure src="images/merchant-gourmet.png" alt="Screenshot from the Merchant Gourmet website" />
+<Figure src="/images/merchant-gourmet.png" alt="Screenshot from the Merchant Gourmet website" />
 <Paragraph
 	><a href="https://www.merchant-gourmet.com/">Merchant Gourmet</a> is a provider of high-quality
 	cook's ingredients that helps people bring the flavours of the world into their own homes. I was

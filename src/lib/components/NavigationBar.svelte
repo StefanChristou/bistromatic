@@ -14,14 +14,20 @@
 </script>
 
 <nav>
+	<div class="buttonContainer">
 	{#each Object.entries(links) as [path, { text }]}
 		<button on:click={handleLinkClick(path)} class:active={path === selected}>{text}</button>
 	{/each}
+	</div>
+	<slot></slot>
 </nav>
 
 <style>
 	nav {
 		margin: 0.5rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 
 	button {
