@@ -1,5 +1,4 @@
 import {mainPaths, workPaths} from "../../routes/site-paths";
-import Words from './window-contents/Words.svelte';
 import Work from './window-contents/Work.svelte';
 import Who from './window-contents/QAndA.svelte';
 import BoomiDataVis from './window-contents/work-pages/BoomiDataVis.svelte';
@@ -49,9 +48,9 @@ export const workLinks = {
 };
 
 export const mainLinks = {
-  [mainPaths.words]: { text: 'Words', component: Words, initWidth: 1200, initHeight: 900 },
+  // [mainPaths.words]: { text: 'Words', component: Words, initWidth: 1200, initHeight: 900 },
   [mainPaths.work]: {
-    text: 'Work',
+    text: 'Projects',
     component: Work,
     initWidth: 1200,
     initHeight: 900,
