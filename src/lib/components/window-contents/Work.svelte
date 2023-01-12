@@ -5,6 +5,7 @@
   import LinkyCard from '../shared/LinkyCard.svelte';
   import Paragraph from '../shared/Paragraph.svelte';
   import {workPaths} from '../../../routes/site-paths.ts';
+  import {windowMode} from '../../../ui-store';
 
   export let links = {};
   const dispatch = createEventDispatcher();
@@ -74,9 +75,17 @@
 </Paragraph>
 
 <div class="flex-container">
-  {#each works as {text, path, image}}
-    <button on:click={() => emitLinkClick(path)} class="un-styled-button">
-      <LinkyCard {image} {text}/>
-    </button>
-  {/each}
+  {#if $windowMode}
+    {#each works as {text, path, image}}
+      <button on:click={() => emitLinkClick(path)} class="un-styled-button">
+        <LinkyCard {image} {text}/>
+      </button>
+    {/each}
+  {:else}
+    {#each works as {text, path, image}}
+      <a href={path} title={text} class="un-styled-button">
+        <LinkyCard {image} {text}/>
+      </a>
+    {/each}
+  {/if}
 </div>

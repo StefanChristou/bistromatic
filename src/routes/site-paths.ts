@@ -1,8 +1,8 @@
 export const mainPaths: { [key: string]: string } = {
-	home: '',
-	words: 'words',
-	work: 'work',
-	qAndA: 'q-and-a'
+	home: '/',
+	words: '/words',
+	work: '/work',
+	qAndA: '/q-and-a'
 };
 
 export const workPaths: { [key: string]: string } = {
