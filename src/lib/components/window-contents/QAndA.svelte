@@ -8,7 +8,7 @@
 <PageHeading>Q+A with the author</PageHeading>
 
 <Figure
-	src="images/mountains-in-clouds.jpg"
+	src="/images/mountains-in-clouds.jpg"
 	alt="Photograph of mountains in clouds as seen from the air"
 	caption="Mountains in clouds, Italy. © Stefan Christou 2017"
 />

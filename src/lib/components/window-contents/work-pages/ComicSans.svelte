@@ -6,7 +6,7 @@
 
 <div>
 	<PageHeading>Comic Sans Ultralight</PageHeading>
-	<Figure src="images/comic-sans-ultralight.jpg" alt="Sexy?" />
+	<Figure src="/images/comic-sans-ultralight.jpg" alt="Sexy?" />
 	<Paragraph>The font the web has been waiting for!!!!!!!!!!!!!!!!!!!!!!!!!!!</Paragraph>
 	<Paragraph
 		>Ever since its release in 1994, Comic Sans has been a staple of good sensible design the world
@@ -47,11 +47,11 @@
 <style>
 	@font-face {
 		font-family: 'comic_sans_ultralightultraLt';
-		src: url('webfonts/abc123-webfont.eot');
-		src: url('webfonts/abc123-webfont.eot?#iefix') format('embedded-opentype'),
-			url('webfonts/abc123-webfont.woff') format('woff'),
-			url('webfonts/abc123-webfont.ttf') format('truetype'),
-			url('webfonts/abc123-webfont.svg#comic_sans_ultralightultraLt') format('svg');
+		src: url('/webfonts/abc123-webfont.eot');
+		src: url('/webfonts/abc123-webfont.eot?#iefix') format('embedded-opentype'),
+			url('/webfonts/abc123-webfont.woff') format('woff'),
+			url('/webfonts/abc123-webfont.ttf') format('truetype'),
+			url('/webfonts/abc123-webfont.svg#comic_sans_ultralightultraLt') format('svg');
 		font-weight: normal;
 		font-style: normal;
 	}

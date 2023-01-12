@@ -6,15 +6,15 @@
 
 <PageHeading>El Say h’ Park laser cut book</PageHeading>
 <Figure
-	src="images/elsp1.jpg"
+	src="/images/elsp1.jpg"
 	alt="Closeup image of a book with 3D shapes laser cut into the pages"
 />
 <Figure
-	src="images/elsp2.jpg"
+	src="/images/elsp2.jpg"
 	alt="Closeup of the edge of the book's pages, showing the park name cut into the sides"
 />
 <Figure
-	src="images/elsp3.jpg"
+	src="/images/elsp3.jpg"
 	alt="Image showing the book, open in the first page, showing the shape cut in and printed images of people walking nearby. The book's storage box is also shown, it is covered in a cream coloured fabric and has a black interior."
 />
 <Paragraph

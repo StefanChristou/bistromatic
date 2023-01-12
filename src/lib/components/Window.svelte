@@ -1,9 +1,9 @@
 <script>
 	import { createEventDispatcher, onMount, afterUpdate } from 'svelte';
-	import leftClickOnly from '../helpers/leftClickOnly';
+	import leftClickOnly from '../helpers/left-click-only';
 
 	export let zIndex = 1;
-	export let text = '';
+	export let text = '404';
 
 	export let active = false;
 	export let minimised = false;
@@ -315,7 +315,9 @@
 		</div>
 	</div>
 	<div class="inner" class:minimised>
-		<slot />
+		<slot>
+			<em>404 – page not found</em>
+		</slot>
 	</div>
 	<div class="white-out" class:active on:mousedown={leftClickOnly(handleMoveStart)} />
 	<button class="resize-top" on:mousedown={leftClickOnly(handleResizeTopStart)} />
