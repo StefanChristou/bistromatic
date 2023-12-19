@@ -5,7 +5,7 @@
   import {mainLinks, allLinks} from './window-controller-links';
   import {isWindowMode} from "../../ui-store.ts";
   import WindowModeToggle from "./shared/WindowModeToggle.svelte";
-  import {goto, afterNavigate} from "$app/navigation";
+  import {goto} from "$app/navigation";
   import PageHeading from "./shared/PageHeading.svelte";
   import LinkLikeButton from "./shared/LinkLikeButton.svelte";
 
@@ -143,6 +143,7 @@
   }
 
   function handleHomeClick() {
+    selected = '';
     openWindows = new Map();
     // addOpenWindowsToQueryParam();
     goto('/', {replaceState: true});

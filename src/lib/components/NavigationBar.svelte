@@ -23,10 +23,9 @@
       {/each}
     {:else}
       {#each Object.entries(links) as [path, {text}]}
-        <a href={path} class:active={path === selected}>{text}</a>
+        <a href={path} class:active={path === selected} on:click={handleLinkClick(path)}>{text}</a>
       {/each}
     {/if}
-
   </div>
   <slot></slot>
 </nav>
