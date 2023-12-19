@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   export let checked = false;
   export let label = '';
 </script>
@@ -7,7 +7,7 @@
   <span class="label-text">{label}:</span>
   <span class="switch" class:checked>
     <span class="slider"></span>
-    <input type=checkbox bind:checked="{checked}">
+    <input type=checkbox bind:checked>
   </span>
 </label>
 
