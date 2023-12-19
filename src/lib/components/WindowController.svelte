@@ -3,7 +3,7 @@
   import NavigationBar from './NavigationBar.svelte';
   import Window from './Window.svelte';
   import {mainLinks, allLinks} from './window-controller-links';
-  import {windowMode} from "../../ui-store.ts";
+  import {isWindowMode} from "../../ui-store.ts";
   import WindowModeToggle from "./shared/WindowModeToggle.svelte";
   import {goto, afterNavigate} from "$app/navigation";
   import PageHeading from "./shared/PageHeading.svelte";
@@ -15,7 +15,7 @@
   let selected = '';
   let mounted = false;
 
-  $: windowModeOpen = $windowMode;
+  $: windowModeOpen = $isWindowMode;
 
   function openWindow(path) {
     const length = openWindows.size;
