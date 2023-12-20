@@ -9,6 +9,7 @@
   import PageHeading from "./shared/PageHeading.svelte";
   import ContentContainer from "./shared/ContentContainer.svelte";
   import LinkLikeButton from "./shared/LinkLikeButton.svelte";
+  import {setSearchParam} from "../helpers/uri-param-helpers";
 
   let openWindows = new Map();
   let paths;
@@ -47,7 +48,7 @@
     if (windowModeOpen) {
       openAllWindows(getWindowPathsArray());
       navigateToTopPath(["/"]);
-      // addOpenWindowsToQueryParam();
+      addOpenWindowsToQueryParam();
     } else {
       navigateToTopPath(getWindowPathsArray());
     }
@@ -74,7 +75,7 @@
 
   onMount(() => {
     mounted = true;
-    paths = new URL(window.location.href).searchParams.get('open')?.split(',') || [];
+    paths = new URL(window.location.href).searchParams.get('open-windows')?.split(',') || [];
 
     if (windowModeOpen) {
       openAllWindows(paths);
@@ -88,30 +89,28 @@
   }
 
   function addOpenWindowsToQueryParam() {
-    // const newUrl = new URL(window.location.href);
-    // if (openWindows.size) {
-    //   newUrl.searchParams.set('open', [...openWindows.keys()].join(','));
-    // } else {
-    //   newUrl.searchParams.delete('open');
-    // }
-    // window.history.replaceState(newUrl, '', newUrl);
+    if (openWindows.size) {
+      setSearchParam('open-windows', [...openWindows.keys()].join(','));
+    } else {
+      setSearchParam('open-windows', [].join(','));
+    }
   }
 
   function handleLinkClick(event) {
     const path = event.detail.path;
     if (openWindows.has(path)) {
       handleMakeActive(path);
-      // addOpenWindowsToQueryParam();
+      addOpenWindowsToQueryParam();
     } else {
       openWindow(path);
-      // addOpenWindowsToQueryParam();
+      addOpenWindowsToQueryParam();
     }
   }
 
   function handleWindowClose(path) {
     selected = '';
     openWindows.delete(path);
-    // addOpenWindowsToQueryParam();
+    addOpenWindowsToQueryParam();
 
     const previousWindowKey = [...openWindows.keys()][openWindows.size - 1];
 
@@ -146,7 +145,7 @@
   function handleHomeClick() {
     selected = '';
     openWindows = new Map();
-    // addOpenWindowsToQueryParam();
+    addOpenWindowsToQueryParam();
     goto('/', {replaceState: true});
   }
 
