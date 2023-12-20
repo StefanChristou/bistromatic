@@ -1,6 +1,6 @@
 <script>
   import {createEventDispatcher} from 'svelte';
-  import {windowMode} from "../../ui-store";
+  import {isWindowMode} from "../../ui-store";
 
   export let links = {};
   export let selected = [];
@@ -17,16 +17,15 @@
 <nav>
   <div class="buttonContainer">
     <slot name="first-button"></slot>
-    {#if $windowMode}
+    {#if $isWindowMode}
       {#each Object.entries(links) as [path, {text}]}
         <button on:click={handleLinkClick(path)} class:active={path === selected}>{text}</button>
       {/each}
     {:else}
       {#each Object.entries(links) as [path, {text}]}
-        <a href={path} class:active={path === selected}>{text}</a>
+        <a href={path} class:active={path === selected} on:click={handleLinkClick(path)}>{text}</a>
       {/each}
     {/if}
-
   </div>
   <slot></slot>
 </nav>
