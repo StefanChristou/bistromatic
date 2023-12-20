@@ -79,6 +79,7 @@
 
     if (windowModeOpen) {
       openAllWindows(paths);
+      // addOpenWindowsToQueryParam();
     } else {
       navigateToTopPath(paths);
     }
@@ -92,6 +93,7 @@
     if (openWindows.size) {
       setSearchParam('open-windows', [...openWindows.keys()].join(','));
     } else {
+      console.log("mrow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
       setSearchParam('open-windows', [].join(','));
     }
   }
