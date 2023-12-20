@@ -7,6 +7,7 @@
   import WindowModeToggle from "./shared/WindowModeToggle.svelte";
   import {goto} from "$app/navigation";
   import PageHeading from "./shared/PageHeading.svelte";
+  import ContentContainer from "./shared/ContentContainer.svelte";
   import LinkLikeButton from "./shared/LinkLikeButton.svelte";
 
   let openWindows = new Map();
@@ -177,7 +178,9 @@
         on:inactive={() => handleMakeInactive(path)}
       >
         {#if component}
-          <svelte:component this={component} {links} on:linkClick={handleLinkClick}/>
+          <ContentContainer {links} on:linkClick={handleLinkClick}>
+            <svelte:component this={component} on:linkClick={handleLinkClick}/>
+          </ContentContainer>
         {:else}
           <PageHeading>404 – Page not found</PageHeading>
         {/if}

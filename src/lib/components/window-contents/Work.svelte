@@ -1,5 +1,4 @@
 <script>
-  import NavigationBar from '../NavigationBar.svelte';
   import PageHeading from '../shared/PageHeading.svelte';
   import {createEventDispatcher} from 'svelte';
   import LinkyCard from '../shared/LinkyCard.svelte';
@@ -65,9 +64,8 @@
   }
 </script>
 
-<NavigationBar {links} on:linkClick={(e) => emitLinkClick(e.detail.path)}/>
-
 <PageHeading>Work</PageHeading>
+
 <Paragraph>
   The links on this page are a small selection of my professional works over the past few years. Many of the projects I
   have worked on are internal tools or are strictly behind a paywall. I'll try to include as much as I can about those
