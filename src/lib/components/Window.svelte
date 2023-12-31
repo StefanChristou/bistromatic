@@ -28,7 +28,7 @@
 
   $: allowResize = !minimised && !maximised;
 
-	$: showWhiteOut = !active && !minimised && !maximised;
+  $: showWhiteOut = !active && !minimised && !maximised;
 
   function limitWidth(width) {
     const maxWidth = window.innerWidth - leftMoveBuffer;
@@ -313,31 +313,33 @@
 >
   <div class="title-bar" on:mousedown|self={leftClickOnly(handleMoveStart)}>
     <h2 on:mousedown|self={leftClickOnly(handleMoveStart)}>{text}</h2>
-    <div class="control-container">
-      <button on:click={leftClickOnly(handleMinimiseToggleClick)}>_</button>
-      <button on:click={leftClickOnly(handleMaximiseToggleClick)}>[ ]</button>
-      <button on:click={leftClickOnly(handleCloseClick)}>X</button>
-    </div>
+    {#if !minimised}
+      <div class="control-container">
+        <button on:click={leftClickOnly(handleMinimiseToggleClick)}>_</button>
+        <button on:click={leftClickOnly(handleMaximiseToggleClick)}>[ ]</button>
+        <button on:click={leftClickOnly(handleCloseClick)}>X</button>
+      </div>
+    {/if}
   </div>
   <div class="inner" class:minimised>
     <slot>
       <em>404 – page not found</em>
     </slot>
   </div>
-	{#if showWhiteOut}
-		<div class="white-out" class:active on:mousedown={leftClickOnly(handleMoveStart)}></div>
-	{/if}
+  {#if showWhiteOut}
+    <div class="white-out" class:active on:mousedown={leftClickOnly(handleMoveStart)}></div>
+  {/if}
   {#if allowResize}
-		<button class="resize-top" on:mousedown={leftClickOnly(handleResizeTopStart)}></button>
-		<button class="resize-right" on:mousedown={leftClickOnly(handleResizeRightStart)}></button>
-		<button class="resize-bottom" on:mousedown={leftClickOnly(handleResizeBottomStart)}></button>
-		<button class="resize-left" on:mousedown={leftClickOnly(handleResizeLeftStart)}></button>
-		<button class="resize-top-right" on:mousedown={leftClickOnly(handleResizeTopRightStart)}></button>
+    <button class="resize-top" on:mousedown={leftClickOnly(handleResizeTopStart)}></button>
+    <button class="resize-right" on:mousedown={leftClickOnly(handleResizeRightStart)}></button>
+    <button class="resize-bottom" on:mousedown={leftClickOnly(handleResizeBottomStart)}></button>
+    <button class="resize-left" on:mousedown={leftClickOnly(handleResizeLeftStart)}></button>
+    <button class="resize-top-right" on:mousedown={leftClickOnly(handleResizeTopRightStart)}></button>
     <button class="resize-bottom-right" on:mousedown={leftClickOnly(handleResizeBottomRightStart)}
     >R
     </button>
-		<button class="resize-bottom-left" on:mousedown={leftClickOnly(handleResizeBottomLeftStart)}></button>
-		<button class="resize-top-left" on:mousedown={leftClickOnly(handleResizeTopLeftStart)}></button>
+    <button class="resize-bottom-left" on:mousedown={leftClickOnly(handleResizeBottomLeftStart)}></button>
+    <button class="resize-top-left" on:mousedown={leftClickOnly(handleResizeTopLeftStart)}></button>
   {/if}
 </section>
 
