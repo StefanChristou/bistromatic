@@ -327,7 +327,7 @@
     </slot>
   </div>
   {#if showWhiteOut}
-    <div class="white-out" class:active on:mousedown={leftClickOnly(handleMoveStart)}></div>
+    <div class="white-out" on:mousedown={leftClickOnly(handleMoveStart)}></div>
   {/if}
   {#if allowResize}
     <button class="resize-top" on:mousedown={leftClickOnly(handleResizeTopStart)}></button>
@@ -369,10 +369,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-  }
-
-  .white-out.active {
-    display: none;
   }
 
   .window.minimised {
