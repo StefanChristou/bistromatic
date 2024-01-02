@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import {onMount} from 'svelte';
   import NavigationBar from './NavigationBar.svelte';
   import Window from './Window.svelte';
@@ -11,11 +11,8 @@
 
   let openWindows = new Map();
   let paths;
-  let showWindowModeToggle = true; // TODO: Set this property to screen-width so mobile users cannot see the window view toggle controls
   let selected = '';
   let mounted = false;
-
-  $: windowModeOpen = $isWindowMode;
 
   function openWindow(path) {
     const length = openWindows.size;
@@ -43,7 +40,7 @@
   }
 
   $: if (mounted) {
-    if (windowModeOpen) {
+    if ($isWindowMode) {
       openAllWindows(getWindowPathsArray());
       navigateToTopPath(["/"]);
       // addOpenWindowsToQueryParam();
@@ -75,7 +72,7 @@
     mounted = true;
     paths = new URL(window.location.href).searchParams.get('open')?.split(',') || [];
 
-    if (windowModeOpen) {
+    if ($isWindowMode) {
       openAllWindows(paths);
     } else {
       navigateToTopPath(paths);
@@ -153,12 +150,10 @@
 
 <NavigationBar links={mainLinks} {selected} on:linkClick={handleLinkClick}>
   <span slot="first-button"><LinkLikeButton on:click={handleHomeClick}>Home</LinkLikeButton></span>
-  {#if showWindowModeToggle}
-    <WindowModeToggle/>
-  {/if}
+  <WindowModeToggle/>
 </NavigationBar>
 
-{#if windowModeOpen}
+{#if $isWindowMode}
   <section class="window">
     {#each [...openWindows.entries()] as [path, {
       text,
@@ -168,7 +163,7 @@
       initY,
       initWidth,
       initHeight,
-      links
+      links,
     }], i (path)}
       <Window
         {...{initX, initY, text, zIndex: i, initWidth, initHeight, active: path === selected}}
