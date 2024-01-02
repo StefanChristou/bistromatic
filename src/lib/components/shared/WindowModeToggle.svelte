@@ -1,8 +1,12 @@
 <script lang="ts">
   import Switch from "./Switch.svelte";
-  import {isWindowMode} from "../../../ui-store.ts";
+  import {isWindowModeAllowed, isWindowModeSet} from "../../../ui-store.ts";
   import {onMount} from "svelte";
   import {setSearchParam, getSearchParam} from "../../helpers/uri-param-helpers.ts";
+  import {isDesktopWidth} from "../../helpers/isDesktopWidth";
+
+  let innerWidth = 0;
+  $: isWindowModeAllowed.set(isDesktopWidth(innerWidth));
 
   onMount(() => {
     const windowParam = getSearchParam('window-mode');
@@ -10,21 +14,27 @@
     // but I wanted to be explicit to the reader about my intent here, otherwise the
     // loose equality could be made strictly equal by a well-meaning developer in error
     if (windowParam === undefined || windowParam === null || windowParam === 'true') {
-      isWindowMode.set(true);
+      isWindowModeSet.set(true);
     } else {
-      isWindowMode.set(false);
+      isWindowModeSet.set(false);
     }
 
-    isWindowMode.subscribe(isWindowMode => {
+    isWindowModeSet.subscribe(isWindowMode => {
       setSearchParam('window-mode', isWindowMode.toString());
     });
   });
 
 </script>
 
-<span class="smaller">
-  <Switch bind:checked={$isWindowMode} label="Window mode"/>
-</span>
+<svelte:window
+  bind:innerWidth
+></svelte:window>
+
+{#if $isWindowModeAllowed}
+  <span class="smaller">
+    <Switch bind:checked={$isWindowModeSet} label="Window mode"/>
+  </span>
+{/if}
 
 <style>
   .smaller {

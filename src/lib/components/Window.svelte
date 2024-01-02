@@ -1,6 +1,16 @@
-<script>
+<script lang="ts">
   import {afterUpdate, createEventDispatcher, onMount} from 'svelte';
   import leftClickOnly from '../helpers/left-click-only';
+
+  type xProps = {
+    clientX?: number;
+  };
+
+  type yProps = {
+    clientY?: number;
+  };
+
+  type ResizeProps = xProps & yProps;
 
   export let zIndex = 1;
   export let text = '404';
@@ -27,7 +37,6 @@
   let eventMousePosition = {x: 0, y: 0};
 
   $: allowResize = !minimised && !maximised;
-
   $: showWhiteOut = !active && !minimised && !maximised;
 
   function limitWidth(width) {
@@ -56,24 +65,24 @@
   const dispatch = createEventDispatcher();
 
   // Tell the parent that the window should be active
-  function dispatchActive() {
+  function dispatchActive(): void {
     dispatch('active', name);
   }
 
   // Tel the parent that the window should be inactive
-  function dispatchInactive() {
+  function dispatchInactive(): void {
     dispatch('inactive', name);
   }
 
   // Handle user clicks //
 
   // Close
-  function handleCloseClick() {
+  function handleCloseClick(): void {
     dispatch('close', name);
   }
 
   // Minimise
-  function handleMinimiseToggleClick() {
+  function handleMinimiseToggleClick(): void {
     minimised = !minimised;
 
     if (minimised) {
@@ -85,7 +94,7 @@
   }
 
   // Maximise
-  function handleMaximiseToggleClick() {
+  function handleMaximiseToggleClick(): void {
     maximised = !maximised;
 
     if (maximised) {
@@ -96,7 +105,7 @@
 
   // Change window properties //
   // Move Y
-  function moveWindowY({clientY}) {
+  function moveWindowY({clientY}: yProps): void {
     const newY = y + clientY - eventMousePosition.y;
 
     if (newY >= 0 && newY <= window.innerHeight - bottomRightMoveBuffer) {
@@ -110,7 +119,7 @@
   }
 
   // Move X
-  function moveWindowX({clientX}) {
+  function moveWindowX({clientX}: xProps): void {
     const newX = x + clientX - eventMousePosition.x;
 
     if (newX >= -(width - leftMoveBuffer) && newX <= window.innerWidth - bottomRightMoveBuffer) {
@@ -124,13 +133,16 @@
   }
 
   // Move XY
-  function moveWindow({clientX, clientY}) {
+  function moveWindow({clientX, clientY}: ResizeProps): void {
     moveWindowY({clientY});
     moveWindowX({clientX});
   }
 
   // Resize Y from bottom
-  function resizeWindowHeight({clientY}) {
+  function resizeWindowHeight({clientY}: yProps): void {
+    if (!clientY) {
+      return;
+    }
     const newHeight = height + (clientY - eventMousePosition.y);
 
     if (newHeight > 100) {
@@ -140,7 +152,10 @@
   }
 
   // Resize X from right
-  function resizeWindowWidth({clientX}) {
+  function resizeWindowWidth({clientX}: xProps): void {
+    if (!clientX) {
+      return;
+    }
     const newWidth = width + (clientX - eventMousePosition.x);
 
     if (newWidth > 200) {
@@ -150,27 +165,27 @@
   }
 
   // Resize from bottom right
-  function resizeWindowFromBottomRight({clientX, clientY}) {
+  function resizeWindowFromBottomRight({clientX, clientY}: ResizeProps): void {
     resizeWindowHeight({clientY});
     resizeWindowWidth({clientX});
   }
 
   // Resize from bottom left
-  function resizeWindowFromBottomLeft({clientX, clientY}) {
+  function resizeWindowFromBottomLeft({clientX, clientY}: ResizeProps): void {
     resizeWindowHeight({clientY});
     resizeWindowWidthFromLeft({clientX});
     moveWindowX({clientX});
   }
 
   // Resize from top left
-  function resizeWindowFromTopLeft({clientX, clientY}) {
+  function resizeWindowFromTopLeft({clientX, clientY}: ResizeProps): void {
     resizeWindowHeightFromTop({clientY});
     resizeWindowWidthFromLeft({clientX});
     moveWindow({clientX, clientY});
   }
 
   // Resize Y from top
-  function resizeWindowHeightFromTop({clientY}) {
+  function resizeWindowHeightFromTop({clientY}: yProps): void {
     const newHeight = height - (clientY - eventMousePosition.y);
 
     if (newHeight > 100) {
@@ -179,7 +194,7 @@
   }
 
   // Resize X from left
-  function resizeWindowWidthFromLeft({clientX}) {
+  function resizeWindowWidthFromLeft({clientX}: xProps): void {
     const newWidth = width - (clientX - eventMousePosition.x);
 
     if (newWidth > 200) {
@@ -188,24 +203,24 @@
   }
 
   // Resize from top
-  function resizeFromTop({clientY}) {
+  function resizeFromTop({clientY}): void {
     resizeWindowHeightFromTop({clientY});
     moveWindowY({clientY});
   }
 
   // Resize from bottom
-  function resizeFromBottom({clientY}) {
+  function resizeFromBottom({clientY}): void {
     resizeWindowFromBottomRight({clientY});
   }
 
   // Resize from left
-  function resizeFromLeft({clientX}) {
+  function resizeFromLeft({clientX}): void {
     resizeWindowWidthFromLeft({clientX});
     moveWindowX({clientX});
   }
 
   // Resize from top right
-  function resizeFromTopRight({clientY, clientX}) {
+  function resizeFromTopRight({clientY, clientX}: ResizeProps): void {
     resizeWindowHeightFromTop({clientY});
     resizeWindowWidth({clientX});
     moveWindowY({clientY});
@@ -214,32 +229,32 @@
   // Setup resize/move //
 
   // Set mouse position start point
-  function setResizeMousePosition({clientX, clientY}) {
+  function setResizeMousePosition({clientX, clientY}: ResizeProps): void {
     eventMousePosition = {x: clientX, y: clientY};
   }
 
   // Set mouse position start point and dispatch window as active
-  function setupMouseAndMakeWindowActive({clientX, clientY}) {
+  function setupMouseAndMakeWindowActive({clientX, clientY}: ResizeProps): void {
     setResizeMousePosition({clientX, clientY});
     dispatchActive();
   }
 
   // Add/remove event listeners for resizing/moving
   // Add
-  function addMoveAndUpEventListeners(moveCallback) {
+  function addMoveAndUpEventListeners(moveCallback: typeof moveWindow): void {
     window.onmousemove = moveCallback;
     window.onmouseup = removeMoveAndUpEventListeners;
   }
 
   // Remove
-  function removeMoveAndUpEventListeners() {
+  function removeMoveAndUpEventListeners(): void {
     window.onmousemove = null;
     window.onmouseup = null;
   }
 
   // Handlers for the window controls //
   // Move //
-  function handleMoveStart(event) {
+  function handleMoveStart(event: MouseEvent): void {
     if (minimised) {
       dispatchActive();
       return;
@@ -251,50 +266,50 @@
 
   // Resize from edges
   // Top
-  function handleResizeTopStart({clientX, clientY}) {
+  function handleResizeTopStart({clientX, clientY}: ResizeProps): void {
     setupMouseAndMakeWindowActive({clientX, clientY});
     addMoveAndUpEventListeners(resizeFromTop);
   }
 
   // Right
-  function handleResizeRightStart({clientX, clientY}) {
+  function handleResizeRightStart({clientX, clientY}: ResizeProps): void {
     setupMouseAndMakeWindowActive({clientX, clientY});
     addMoveAndUpEventListeners(resizeWindowWidth);
   }
 
   // Bottom
-  function handleResizeBottomStart({clientX, clientY}) {
+  function handleResizeBottomStart({clientX, clientY}: ResizeProps): void {
     setupMouseAndMakeWindowActive({clientX, clientY});
     addMoveAndUpEventListeners(resizeFromBottom);
   }
 
   // Left
-  function handleResizeLeftStart({clientX, clientY}) {
+  function handleResizeLeftStart({clientX, clientY}: ResizeProps): void {
     setupMouseAndMakeWindowActive({clientX, clientY});
     addMoveAndUpEventListeners(resizeFromLeft);
   }
 
   // Resize from corners //
   // Top right
-  function handleResizeTopRightStart({clientX, clientY}) {
+  function handleResizeTopRightStart({clientX, clientY}: ResizeProps): void {
     setupMouseAndMakeWindowActive({clientX, clientY});
     addMoveAndUpEventListeners(resizeFromTopRight);
   }
 
   // Bottom right
-  function handleResizeBottomRightStart({clientX, clientY}) {
+  function handleResizeBottomRightStart({clientX, clientY}: ResizeProps): void {
     setupMouseAndMakeWindowActive({clientX, clientY});
     addMoveAndUpEventListeners(resizeWindowFromBottomRight);
   }
 
   // Bottom left
-  function handleResizeBottomLeftStart({clientX, clientY}) {
+  function handleResizeBottomLeftStart({clientX, clientY}: ResizeProps): void {
     setupMouseAndMakeWindowActive({clientX, clientY});
     addMoveAndUpEventListeners(resizeWindowFromBottomLeft);
   }
 
   // Top left
-  function handleResizeTopLeftStart({clientX, clientY}) {
+  function handleResizeTopLeftStart({clientX, clientY}: ResizeProps): void {
     setupMouseAndMakeWindowActive({clientX, clientY});
     addMoveAndUpEventListeners(resizeWindowFromTopLeft);
   }
@@ -327,7 +342,7 @@
     </slot>
   </div>
   {#if showWhiteOut}
-    <div class="white-out" class:active on:mousedown={leftClickOnly(handleMoveStart)}></div>
+    <div class="white-out" on:mousedown={leftClickOnly(handleMoveStart)}></div>
   {/if}
   {#if allowResize}
     <button class="resize-top" on:mousedown={leftClickOnly(handleResizeTopStart)}></button>
@@ -369,10 +384,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-  }
-
-  .white-out.active {
-    display: none;
   }
 
   .window.minimised {
