@@ -43,25 +43,9 @@
     if ($isWindowMode) {
       openAllWindows(getWindowPathsArray());
       navigateToTopPath(["/"]);
-      // addOpenWindowsToQueryParam();
     } else {
       navigateToTopPath(getWindowPathsArray());
     }
-  }
-
-  // afterNavigate(event => {
-  //   const path = event.to.route.id;
-  //   if (isNotForwardSlash(path)) {
-  //     if (openWindows.has(path)) {
-  //       handleMakeActive(path);
-  //     } else {
-  //       openWindow(path);
-  //     }
-  //   }
-  // });
-
-  function isNotForwardSlash(path) {
-    return path !== '/';
   }
 
   function isPathValid(path) {
@@ -83,31 +67,18 @@
     return [...openWindows.keys()];
   }
 
-  function addOpenWindowsToQueryParam() {
-    // const newUrl = new URL(window.location.href);
-    // if (openWindows.size) {
-    //   newUrl.searchParams.set('open', [...openWindows.keys()].join(','));
-    // } else {
-    //   newUrl.searchParams.delete('open');
-    // }
-    // window.history.replaceState(newUrl, '', newUrl);
-  }
-
   function handleLinkClick(event) {
     const path = event.detail.path;
     if (openWindows.has(path)) {
       handleMakeActive(path);
-      // addOpenWindowsToQueryParam();
     } else {
       openWindow(path);
-      // addOpenWindowsToQueryParam();
     }
   }
 
   function handleWindowClose(path) {
     selected = '';
     openWindows.delete(path);
-    // addOpenWindowsToQueryParam();
 
     const previousWindowKey = [...openWindows.keys()][openWindows.size - 1];
 
@@ -142,7 +113,6 @@
   function handleHomeClick() {
     selected = '';
     openWindows = new Map();
-    // addOpenWindowsToQueryParam();
     goto('/', {replaceState: true});
   }
 
