@@ -69,9 +69,9 @@
     dispatch('active', name);
   }
 
-  // Tel the parent that the window should be inactive
-  function dispatchInactive(): void {
-    dispatch('inactive', name);
+  // Tel the parent that the window should be minimised
+  function dispatchMinimised(): void {
+    dispatch('minimised', name);
   }
 
   // Handle user clicks //
@@ -86,7 +86,7 @@
     minimised = !minimised;
 
     if (minimised) {
-      dispatchInactive();
+      dispatchMinimised();
       maximised = false;
     } else {
       dispatchActive();

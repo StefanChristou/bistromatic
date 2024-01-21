@@ -76,15 +76,17 @@
     }
   }
 
-  function handleWindowClose(path) {
-    selected = '';
-    openWindows.delete(path);
-
-    const previousWindowKey = [...openWindows.keys()][openWindows.size - 1];
-
+  function makePreviousWindowActive() {
+    const previousWindowKey = [...openWindows.keys()][openWindows.size - 2];
     if (previousWindowKey) {
       handleMakeActive(previousWindowKey);
     }
+  }
+
+  function handleWindowClose(path) {
+    selected = '';
+    makePreviousWindowActive();
+    openWindows.delete(path);
   }
 
   function handleMakeActive(path) {
@@ -102,12 +104,13 @@
     openWindows.set(path, window);
   }
 
-  function handleMakeInactive(path) {
+  function handleMakeMinimised(path) {
     selected = '';
     openWindows.set(path, {
       ...openWindows.get(path),
       zIndex: 0
     });
+    makePreviousWindowActive();
   }
 
   function handleHomeClick() {
@@ -139,7 +142,7 @@
         {...{initX, initY, text, zIndex: i, initWidth, initHeight, active: path === selected}}
         on:close={() => handleWindowClose(path)}
         on:active={() => handleMakeActive(path)}
-        on:inactive={() => handleMakeInactive(path)}
+        on:minimised={() => handleMakeMinimised(path)}
       >
         {#if component}
           <svelte:component this={component} {links} on:linkClick={handleLinkClick}/>
