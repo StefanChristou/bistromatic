@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Figure from '../lib/components/shared/Figure.svelte';
 </script>
 
