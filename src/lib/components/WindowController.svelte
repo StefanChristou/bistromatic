@@ -1,167 +1,154 @@
 <script lang="ts">
-  import {onMount} from 'svelte';
-  import NavigationBar from './NavigationBar.svelte';
-  import Window from './Window.svelte';
-  import {mainLinks, allLinks} from './window-controller-links';
-  import {isWindowMode} from "../../ui-store.ts";
-  import WindowModeToggle from "./shared/WindowModeToggle.svelte";
-  import {goto} from "$app/navigation";
-  import PageHeading from "./shared/PageHeading.svelte";
-  import LinkLikeButton from "./shared/LinkLikeButton.svelte";
+	import { onMount } from 'svelte';
+	import NavigationBar from './NavigationBar.svelte';
+	import Window from './Window.svelte';
+	import { mainLinks, allLinks } from './window-controller-links';
+	import { isWindowMode } from '../../ui-store.ts';
+	import WindowModeToggle from './shared/WindowModeToggle.svelte';
+	import { goto } from '$app/navigation';
+	import PageHeading from './shared/PageHeading.svelte';
+	import LinkLikeButton from './shared/LinkLikeButton.svelte';
 
-  let openWindows = new Map();
-  let paths;
-  let selected = '';
-  let mounted = false;
+	let openWindows = new Map();
+	let paths;
+	let selected = '';
+	let mounted = false;
 
-  function openWindow(path) {
-    const length = openWindows.size;
-    selected = path;
+	function openWindow(path) {
+		const length = openWindows.size;
+		selected = path;
 
-    openWindows.set(
-      path,
-      {
-        ...allLinks[path],
-        initX: 40 + 12 * (length + 1),
-        initY: 40 + 12 * ((length % 6) + 1)
-      }
-    );
-  }
+		openWindows.set(path, {
+			...allLinks[path],
+			initX: 40 + 12 * (length + 1),
+			initY: 40 + 12 * ((length % 6) + 1)
+		});
+	}
 
-  function openAllWindows(paths = []) {
-    paths.filter(Boolean).forEach(path => openWindow(path));
-  }
+	function openAllWindows(paths = []) {
+		paths.filter(Boolean).forEach((path) => openWindow(path));
+	}
 
-  function navigateToTopPath(paths, replaceState = true) {
-    const topPath = paths[paths.length - 1] || '';
-    if (isPathValid(topPath)) {
-      goto(topPath, {replaceState});
-    }
-  }
+	function navigateToTopPath(paths, replaceState = true) {
+		const topPath = paths[paths.length - 1] || '';
+		if (isPathValid(topPath)) {
+			goto(topPath, { replaceState });
+		}
+	}
 
-  $: if (mounted) {
-    if ($isWindowMode) {
-      openAllWindows(getWindowPathsArray());
-      navigateToTopPath(["/"]);
-    } else {
-      navigateToTopPath(getWindowPathsArray());
-    }
-  }
+	$: if (mounted) {
+		if ($isWindowMode) {
+			openAllWindows(getWindowPathsArray());
+			navigateToTopPath(['/']);
+		} else {
+			navigateToTopPath(getWindowPathsArray());
+		}
+	}
 
-  function isPathValid(path) {
-    return path === '/' || Boolean(allLinks[path]);
-  }
+	function isPathValid(path) {
+		return path === '/' || Boolean(allLinks[path]);
+	}
 
-  onMount(() => {
-    mounted = true;
-    paths = new URL(window.location.href).searchParams.get('open')?.split(',') || [];
+	onMount(() => {
+		mounted = true;
+		paths = new URL(window.location.href).searchParams.get('open')?.split(',') || [];
 
-    if ($isWindowMode) {
-      openAllWindows(paths);
-    } else {
-      navigateToTopPath(paths);
-    }
-  });
+		if ($isWindowMode) {
+			openAllWindows(paths);
+		} else {
+			navigateToTopPath(paths);
+		}
+	});
 
-  function getWindowPathsArray() {
-    return [...openWindows.keys()];
-  }
+	function getWindowPathsArray() {
+		return [...openWindows.keys()];
+	}
 
-  function handleLinkClick(event) {
-    const path = event.detail.path;
-    if (openWindows.has(path)) {
-      handleMakeActive(path);
-    } else {
-      openWindow(path);
-    }
-  }
+	function handleLinkClick(event) {
+		const path = event.detail.path;
+		if (openWindows.has(path)) {
+			handleMakeActive(path);
+		} else {
+			openWindow(path);
+		}
+	}
 
-  function makePreviousWindowActive() {
-    const previousWindowKey = [...openWindows.keys()][openWindows.size - 2];
-    if (previousWindowKey) {
-      handleMakeActive(previousWindowKey);
-    }
-  }
+	function makePreviousWindowActive() {
+		const previousWindowKey = [...openWindows.keys()][openWindows.size - 2];
+		if (previousWindowKey) {
+			handleMakeActive(previousWindowKey);
+		}
+	}
 
-  function handleWindowClose(path) {
-    selected = '';
-    makePreviousWindowActive();
-    openWindows.delete(path);
-  }
+	function handleWindowClose(path) {
+		selected = '';
+		makePreviousWindowActive();
+		openWindows.delete(path);
+	}
 
-  function handleMakeActive(path) {
-    if (!path) {
-      return;
-    }
-    selected = path;
-    const highestZIndex = Math.max(...[...openWindows.values()].map((w) => w.zIndex), 0);
-    const window = {
-      ...openWindows.get(path),
-      zIndex: highestZIndex + 1
-    };
+	function handleMakeActive(path) {
+		if (!path) {
+			return;
+		}
+		selected = path;
+		const highestZIndex = Math.max(...[...openWindows.values()].map((w) => w.zIndex), 0);
+		const window = {
+			...openWindows.get(path),
+			zIndex: highestZIndex + 1
+		};
 
-    openWindows.delete(path);
-    openWindows.set(path, window);
-  }
+		openWindows.delete(path);
+		openWindows.set(path, window);
+	}
 
-  function handleMakeMinimised(path) {
-    selected = '';
-    openWindows.set(path, {
-      ...openWindows.get(path),
-      zIndex: 0
-    });
-    makePreviousWindowActive();
-  }
+	function handleMakeMinimised(path) {
+		selected = '';
+		openWindows.set(path, {
+			...openWindows.get(path),
+			zIndex: 0
+		});
+		makePreviousWindowActive();
+	}
 
-  function handleHomeClick() {
-    selected = '';
-    openWindows = new Map();
-    goto('/', {replaceState: true});
-  }
-
+	function handleHomeClick() {
+		selected = '';
+		openWindows = new Map();
+		goto('/', { replaceState: true });
+	}
 </script>
 
 <NavigationBar links={mainLinks} {selected} on:linkClick={handleLinkClick}>
-  <span slot="first-button"><LinkLikeButton on:click={handleHomeClick}>Home</LinkLikeButton></span>
-  <WindowModeToggle/>
+	<span slot="first-button"><LinkLikeButton on:click={handleHomeClick}>Home</LinkLikeButton></span>
+	<WindowModeToggle />
 </NavigationBar>
 
 {#if $isWindowMode}
-  <section class="window">
-    {#each [...openWindows.entries()] as [path, {
-      text,
-      component,
-      zIndex,
-      initX,
-      initY,
-      initWidth,
-      initHeight,
-      links,
-    }], i (path)}
-      <Window
-        {...{initX, initY, text, zIndex: i, initWidth, initHeight, active: path === selected}}
-        on:close={() => handleWindowClose(path)}
-        on:active={() => handleMakeActive(path)}
-        on:minimised={() => handleMakeMinimised(path)}
-      >
-        {#if component}
-          <svelte:component this={component} {links} on:linkClick={handleLinkClick}/>
-        {:else}
-          <PageHeading>404 – Page not found</PageHeading>
-        {/if}
-      </Window>
-    {/each}
-  </section>
+	<section class="window">
+		{#each [...openWindows.entries()] as [path, { text, component, initX, initY, initWidth, initHeight, links }], i (path)}
+			<Window
+				{...{ initX, initY, text, zIndex: i, initWidth, initHeight, active: path === selected }}
+				on:close={() => handleWindowClose(path)}
+				on:active={() => handleMakeActive(path)}
+				on:minimised={() => handleMakeMinimised(path)}
+			>
+				{#if component}
+					<svelte:component this={component} {links} on:linkClick={handleLinkClick} />
+				{:else}
+					<PageHeading>404 – Page not found</PageHeading>
+				{/if}
+			</Window>
+		{/each}
+	</section>
 {/if}
 
 <style>
-  .window {
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    pointer-events: none;
-  }
+	.window {
+		position: absolute;
+		width: 100%;
+		height: 100vh;
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-start;
+		pointer-events: none;
+	}
 </style>
