@@ -4,11 +4,11 @@
 
 	type xProps = {
 		clientX: number;
-	}
+	};
 
 	type yProps = {
 		clientY: number;
-	}
+	};
 
 	type ResizeProps = xProps & yProps;
 
