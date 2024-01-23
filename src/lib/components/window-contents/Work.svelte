@@ -6,7 +6,7 @@
 	import Paragraph from '../shared/Paragraph.svelte';
 	import { workPaths } from '../../../routes/site-paths';
 	import { isWindowMode } from '../../../ui-store';
-	import type {Image} from "../../types/Image.type";
+	import type { Image } from '../../types/Image.type';
 
 	type Work = {
 		text: string;
