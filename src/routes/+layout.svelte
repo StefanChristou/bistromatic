@@ -11,7 +11,11 @@
 	</main>
 
 	<footer>
-		<p>visit <a href="https://github.com/StefanChristou/bistromatic">github.com/StefanChristou/bistromatic</a></p>
+		<p>
+			visit <a href="https://github.com/StefanChristou/bistromatic"
+				>github.com/StefanChristou/bistromatic</a
+			>
+		</p>
 	</footer>
 </div>
 

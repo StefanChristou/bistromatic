@@ -1,7 +1,8 @@
 <script lang="ts">
 	import PageHeading from './PageHeading.svelte';
+	import type {Image} from "../../types/Image.type";
 
-	export let image = {};
+	export let image = {} as Image;
 	export let text = '';
 
 	const padding = Math.random() * 2 + 'rem';

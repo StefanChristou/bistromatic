@@ -11,7 +11,7 @@
 	width="100%"
 	height="800px"
 	src="https://main.dticqtqdkpoh7.amplifyapp.com/"
-></iframe>
+/>
 
 <Paragraph
 	>This is a data visualisation created for the Financial Times' company Longitude.</Paragraph
