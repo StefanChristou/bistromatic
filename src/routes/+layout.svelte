@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import './styles.css';
 	import WindowController from '../lib/components/WindowController.svelte';
 </script>

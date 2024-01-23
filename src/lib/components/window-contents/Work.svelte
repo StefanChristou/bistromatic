@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import NavigationBar from '../NavigationBar.svelte';
   import PageHeading from '../shared/PageHeading.svelte';
   import {createEventDispatcher} from 'svelte';

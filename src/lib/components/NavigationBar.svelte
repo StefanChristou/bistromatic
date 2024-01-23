@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import {createEventDispatcher} from 'svelte';
   import {isWindowMode} from "../../ui-store";
 

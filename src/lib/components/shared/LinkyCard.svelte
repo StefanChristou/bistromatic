@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import PageHeading from './PageHeading.svelte';
 
 	export let image = {};

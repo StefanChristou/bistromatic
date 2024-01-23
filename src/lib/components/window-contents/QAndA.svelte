@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Figure from '../shared/Figure.svelte';
 	import PageHeading from '../shared/PageHeading.svelte';
 	import Subheading from '../shared/Subheading.svelte';

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import PageHeading from '../../shared/PageHeading.svelte';
 	import Paragraph from '../../shared/Paragraph.svelte';
 </script>
@@ -18,7 +18,7 @@
 	width="100%"
 	height="700px"
 	src="https://main.d1s81q7pptf75g.amplifyapp.com/"
-/>
+></iframe>
 
 <style>
 	iframe {
