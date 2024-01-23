@@ -3,7 +3,7 @@
 	import NavigationBar from './NavigationBar.svelte';
 	import Window from './Window.svelte';
 	import { mainLinks, allLinks } from './window-controller-links';
-	import { isWindowMode } from '../../ui-store.ts';
+	import { isWindowMode } from '../../ui-store';
 	import WindowModeToggle from './shared/WindowModeToggle.svelte';
 	import { goto } from '$app/navigation';
 	import PageHeading from './shared/PageHeading.svelte';
@@ -14,7 +14,7 @@
 	let selected = '';
 	let mounted = false;
 
-	function openWindow(path) {
+	function openWindow(path: string) {
 		const length = openWindows.size;
 		selected = path;
 
@@ -25,11 +25,11 @@
 		});
 	}
 
-	function openAllWindows(paths = []) {
+	function openAllWindows(paths = [] as string[]) {
 		paths.filter(Boolean).forEach((path) => openWindow(path));
 	}
 
-	function navigateToTopPath(paths, replaceState = true) {
+	function navigateToTopPath(paths: string[], replaceState = true) {
 		const topPath = paths[paths.length - 1] || '';
 		if (isPathValid(topPath)) {
 			goto(topPath, { replaceState });
@@ -45,7 +45,7 @@
 		}
 	}
 
-	function isPathValid(path) {
+	function isPathValid(path: string) {
 		return path === '/' || Boolean(allLinks[path]);
 	}
 
@@ -64,7 +64,7 @@
 		return [...openWindows.keys()];
 	}
 
-	function handleLinkClick(event) {
+	function handleLinkClick(event: CustomEvent<{ path: string }>) {
 		const path = event.detail.path;
 		if (openWindows.has(path)) {
 			handleMakeActive(path);
@@ -80,13 +80,13 @@
 		}
 	}
 
-	function handleWindowClose(path) {
+	function handleWindowClose(path: string) {
 		selected = '';
 		makePreviousWindowActive();
 		openWindows.delete(path);
 	}
 
-	function handleMakeActive(path) {
+	function handleMakeActive(path: string) {
 		if (!path) {
 			return;
 		}
@@ -101,7 +101,7 @@
 		openWindows.set(path, window);
 	}
 
-	function handleMakeMinimised(path) {
+	function handleMakeMinimised(path: string) {
 		selected = '';
 		openWindows.set(path, {
 			...openWindows.get(path),

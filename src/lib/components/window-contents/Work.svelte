@@ -4,11 +4,20 @@
 	import { createEventDispatcher } from 'svelte';
 	import LinkyCard from '../shared/LinkyCard.svelte';
 	import Paragraph from '../shared/Paragraph.svelte';
-	import { workPaths } from '../../../routes/site-paths.ts';
+	import { workPaths } from '../../../routes/site-paths';
 	import { isWindowMode } from '../../../ui-store';
+	import type {Image} from "../../types/Image.type";
+
+	type Work = {
+		text: string;
+		path: string;
+		image: Image;
+	};
 
 	export let links = {};
+
 	const dispatch = createEventDispatcher();
+
 	const works = [
 		{
 			text: 'Comic Sans Ultralight',
@@ -60,7 +69,7 @@
 		}
 	];
 
-	function emitLinkClick(path) {
+	function emitLinkClick(path: string) {
 		dispatch('linkClick', { path });
 	}
 </script>

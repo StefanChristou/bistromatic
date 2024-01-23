@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Switch from './Switch.svelte';
-	import { isWindowModeAllowed, isWindowModeSet } from '../../../ui-store.ts';
+	import { isWindowModeAllowed, isWindowModeSet } from '../../../ui-store';
 	import { onMount } from 'svelte';
-	import { setSearchParam, getSearchParam } from '../../helpers/uri-param-helpers.ts';
+	import { setSearchParam, getSearchParam } from '../../helpers/uri-param-helpers';
 	import { isDesktopWidth } from '../../helpers/isDesktopWidth';
 
 	let innerWidth = 0;

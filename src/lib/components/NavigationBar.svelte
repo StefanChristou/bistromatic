@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { isWindowMode } from '../../ui-store';
+	import type {Links} from "./window-controller-links";
 
-	export let links = {};
-	export let selected = [];
+	export let links = {} as Links;
+	export let selected = '';
 
 	const dispatch = createEventDispatcher();
 
-	function handleLinkClick(path) {
+	function handleLinkClick(path: string) {
 		return function () {
 			dispatch('linkClick', { path });
 		};

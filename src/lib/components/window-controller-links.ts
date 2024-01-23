@@ -7,8 +7,21 @@ import NGSBuild from './window-contents/work-pages/NGSBuild.svelte';
 import ElSayHPark from './window-contents/work-pages/ElSayHPark.svelte';
 import MerchantGourmet from './window-contents/work-pages/MerchantGourmet.svelte';
 import BakerHughesDataVis from './window-contents/work-pages/BakerHughesDataVis.svelte';
+import type {ComponentType} from "svelte";
 
-export const workLinks = {
+export type Link = {
+	text: string;
+	component: ComponentType;
+	initWidth: number;
+	initHeight: number;
+	links?: Links;
+}
+
+export type Links = {
+	[link: string]: Link;
+}
+
+export const workLinks: Links = {
 	[workPaths.boomi]: {
 		text: 'Boomi',
 		component: BoomiDataVis,
@@ -47,7 +60,7 @@ export const workLinks = {
 	}
 };
 
-export const mainLinks = {
+export const mainLinks: Links = {
 	// [mainPaths.words]: { text: 'Words', component: Words, initWidth: 1200, initHeight: 900 },
 	[mainPaths.work]: {
 		text: 'Projects',
@@ -59,7 +72,7 @@ export const mainLinks = {
 	[mainPaths.qAndA]: { text: 'Q&A', component: Who, initWidth: 800, initHeight: 800 }
 };
 
-export const allLinks = {
+export const allLinks: Links = {
 	...mainLinks,
 	...workLinks
 };

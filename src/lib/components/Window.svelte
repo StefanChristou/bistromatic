@@ -3,12 +3,12 @@
 	import leftClickOnly from '../helpers/left-click-only';
 
 	type xProps = {
-		clientX?: number;
-	};
+		clientX: number;
+	}
 
 	type yProps = {
-		clientY?: number;
-	};
+		clientY: number;
+	}
 
 	type ResizeProps = xProps & yProps;
 
@@ -39,12 +39,12 @@
 	$: allowResize = !minimised && !maximised;
 	$: showWhiteOut = !active && !minimised && !maximised;
 
-	function limitWidth(width) {
+	function limitWidth(width: number): number {
 		const maxWidth = window.innerWidth - leftMoveBuffer;
 		return Math.min(maxWidth, width);
 	}
 
-	function limitHeight(height) {
+	function limitHeight(height: number): number {
 		const maxHeight = window.innerHeight - leftMoveBuffer;
 		return Math.min(maxHeight, height);
 	}
@@ -203,18 +203,18 @@
 	}
 
 	// Resize from top
-	function resizeFromTop({ clientY }): void {
+	function resizeFromTop({ clientY }: ResizeProps): void {
 		resizeWindowHeightFromTop({ clientY });
 		moveWindowY({ clientY });
 	}
 
 	// Resize from bottom
-	function resizeFromBottom({ clientY }): void {
-		resizeWindowFromBottomRight({ clientY });
+	function resizeFromBottom({ clientY }: yProps): void {
+		resizeWindowHeight({ clientY });
 	}
 
 	// Resize from left
-	function resizeFromLeft({ clientX }): void {
+	function resizeFromLeft({ clientX }: ResizeProps): void {
 		resizeWindowWidthFromLeft({ clientX });
 		moveWindowX({ clientX });
 	}
