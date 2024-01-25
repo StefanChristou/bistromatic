@@ -8,7 +8,7 @@
 	import { goto } from '$app/navigation';
 	import PageHeading from './shared/PageHeading.svelte';
 	import LinkLikeButton from './shared/LinkLikeButton.svelte';
-	import type {ContentWindow} from "../../types/ContentWindow.type";
+	import type { ContentWindow } from '../../types/ContentWindow.type';
 
 	let openWindows = new Map<string, Partial<ContentWindow>>();
 	let paths;
@@ -23,7 +23,7 @@
 			...allLinks[path],
 			initX: 40 + 12 * (length + 1),
 			initY: 40 + 12 * ((length % 6) + 1),
-			minimised: false,
+			minimised: false
 		});
 	}
 
@@ -98,7 +98,7 @@
 		const window = {
 			...openWindows.get(path),
 			zIndex: highestZIndex + 1,
-			minimised: false,
+			minimised: false
 		};
 
 		openWindows.delete(path);
@@ -110,7 +110,7 @@
 		openWindows.set(path, {
 			...openWindows.get(path),
 			zIndex: 0,
-			minimised: true,
+			minimised: true
 		});
 		makePreviousWindowActive(path);
 	}
@@ -131,7 +131,16 @@
 	<section class="window">
 		{#each [...openWindows.entries()] as [path, { text, component, initX, initY, initWidth, initHeight, links, minimised }], i (path)}
 			<Window
-				{...{ initX, initY, text, zIndex: i, initWidth, initHeight, active: path === selected, minimised }}
+				{...{
+					initX,
+					initY,
+					text,
+					zIndex: i,
+					initWidth,
+					initHeight,
+					active: path === selected,
+					minimised
+				}}
 				on:close={() => handleWindowClose(path)}
 				on:active={() => handleMakeActive(path)}
 				on:minimised={() => handleMakeMinimised(path)}
