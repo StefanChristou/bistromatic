@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterUpdate, createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import leftClickOnly from '../helpers/left-click-only';
 
 	type xProps = {
@@ -56,12 +56,6 @@
 		height = limitHeight(initHeight);
 	});
 
-	afterUpdate(() => {
-		if (active) {
-			minimised = false;
-		}
-	});
-
 	const dispatch = createEventDispatcher();
 
 	// Tell the parent that the window should be active
@@ -83,13 +77,11 @@
 
 	// Minimise
 	function handleMinimiseToggleClick(): void {
-		minimised = !minimised;
-
 		if (minimised) {
+			dispatchActive();
+		} else {
 			dispatchMinimised();
 			maximised = false;
-		} else {
-			dispatchActive();
 		}
 	}
 

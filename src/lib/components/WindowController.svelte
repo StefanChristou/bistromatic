@@ -96,7 +96,8 @@
 		const highestZIndex = Math.max(...[...openWindows.values()].map((w) => w.zIndex), 0);
 		const window = {
 			...openWindows.get(path),
-			zIndex: highestZIndex + 1
+			zIndex: highestZIndex + 1,
+			minimised: false,
 		};
 
 		openWindows.delete(path);
@@ -107,7 +108,8 @@
 		selected = '';
 		openWindows.set(path, {
 			...openWindows.get(path),
-			zIndex: 0
+			zIndex: 0,
+			minimised: true,
 		});
 		makePreviousWindowActive();
 	}
@@ -126,9 +128,9 @@
 
 {#if $isWindowMode}
 	<section class="window">
-		{#each [...openWindows.entries()] as [path, { text, component, initX, initY, initWidth, initHeight, links }], i (path)}
+		{#each [...openWindows.entries()] as [path, { text, component, initX, initY, initWidth, initHeight, links, minimised }], i (path)}
 			<Window
-				{...{ initX, initY, text, zIndex: i, initWidth, initHeight, active: path === selected }}
+				{...{ initX, initY, text, zIndex: i, initWidth, initHeight, active: path === selected, minimised }}
 				on:close={() => handleWindowClose(path)}
 				on:active={() => handleMakeActive(path)}
 				on:minimised={() => handleMakeMinimised(path)}
