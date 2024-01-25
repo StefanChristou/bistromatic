@@ -63,7 +63,7 @@
 	});
 
 	function getWindowPathsArray() {
-		return [...openWindows.keys()];
+		return [...openWindows].filter(([_, val]) => !val.minimised).map(([key]) => key) as string[];
 	}
 
 	function handleLinkClick(event: CustomEvent<{ path: string }>) {
