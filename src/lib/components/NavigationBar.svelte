@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { isWindowMode } from '../../ui-store';
-	import type { Links } from './window-controller-links';
+	import type { Links } from '../../types/ContentWindow.type';
 
 	export let links = {} as Links;
 	export let selected = '';

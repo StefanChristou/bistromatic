@@ -94,7 +94,7 @@
 			return;
 		}
 		selected = path;
-		const highestZIndex = Math.max(...[...openWindows.values()].map((w) => w.zIndex), 0);
+		const highestZIndex = Math.max(...[...openWindows.values()].map((w) => w.zIndex || 0), 0);
 		const window = {
 			...openWindows.get(path),
 			zIndex: highestZIndex + 1,
