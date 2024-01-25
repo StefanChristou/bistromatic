@@ -8,8 +8,9 @@
 	import { goto } from '$app/navigation';
 	import PageHeading from './shared/PageHeading.svelte';
 	import LinkLikeButton from './shared/LinkLikeButton.svelte';
+	import type {ContentWindow} from "../../types/ContentWindow.type";
 
-	let openWindows = new Map();
+	let openWindows = new Map<string, Partial<ContentWindow>>();
 	let paths;
 	let selected = '';
 	let mounted = false;
@@ -21,7 +22,8 @@
 		openWindows.set(path, {
 			...allLinks[path],
 			initX: 40 + 12 * (length + 1),
-			initY: 40 + 12 * ((length % 6) + 1)
+			initY: 40 + 12 * ((length % 6) + 1),
+			minimised: false,
 		});
 	}
 

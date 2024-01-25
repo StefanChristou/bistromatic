@@ -7,19 +7,7 @@ import NGSBuild from './window-contents/work-pages/NGSBuild.svelte';
 import ElSayHPark from './window-contents/work-pages/ElSayHPark.svelte';
 import MerchantGourmet from './window-contents/work-pages/MerchantGourmet.svelte';
 import BakerHughesDataVis from './window-contents/work-pages/BakerHughesDataVis.svelte';
-import type { ComponentType } from 'svelte';
-
-export type Link = {
-	text: string;
-	component: ComponentType;
-	initWidth: number;
-	initHeight: number;
-	links?: Links;
-};
-
-export type Links = {
-	[link: string]: Link;
-};
+import type {Links} from "../../types/ContentWindow.type";
 
 export const workLinks: Links = {
 	[workPaths.boomi]: {
