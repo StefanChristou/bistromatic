@@ -75,8 +75,9 @@
 		}
 	}
 
-	function makePreviousWindowActive() {
-		const previousWindowKey = [...openWindows.keys()][openWindows.size - 2];
+	function makePreviousWindowActive(path: string = selected) {
+		const windows = [...openWindows].filter(([key, val]) => key !== path && !val.minimised);
+		const previousWindowKey = windows[windows.length - 1]?.[0];
 		if (previousWindowKey) {
 			handleMakeActive(previousWindowKey);
 		}
@@ -111,7 +112,7 @@
 			zIndex: 0,
 			minimised: true,
 		});
-		makePreviousWindowActive();
+		makePreviousWindowActive(path);
 	}
 
 	function handleHomeClick() {
