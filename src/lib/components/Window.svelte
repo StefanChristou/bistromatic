@@ -13,7 +13,7 @@
 	type ResizeProps = xProps & yProps;
 
 	export let zIndex = 1;
-	export let text = '404';
+	export let title = '404';
 
 	export let active = false;
 	export let minimised = false;
@@ -58,21 +58,25 @@
 
 	const dispatch = createEventDispatcher();
 
+	// Handle user clicks //
+
 	// Tell the parent that the window should be active
 	function dispatchActive(): void {
-		dispatch('active', name);
+		dispatch('active');
 	}
 
 	// Tel the parent that the window should be minimised
 	function dispatchMinimised(): void {
-		dispatch('minimised', name);
+		dispatch('minimised');
 	}
 
-	// Handle user clicks //
+	function dispatchMaximised(): void {
+		dispatch('maximised');
+	}
 
 	// Close
 	function handleCloseClick(): void {
-		dispatch('close', name);
+		dispatch('close');
 	}
 
 	// Minimise
@@ -87,12 +91,7 @@
 
 	// Maximise
 	function handleMaximiseToggleClick(): void {
-		maximised = !maximised;
-
-		if (maximised) {
-			minimised = false;
-		}
-		dispatchActive();
+		dispatchMaximised();
 	}
 
 	// Change window properties //
@@ -312,10 +311,10 @@
 	class:minimised
 	class:maximised
 	class:active
-	style:left={minimised || maximised ? 0 : x + 'px'}
-	style:top={minimised || maximised ? 0 : y + 'px'}
-	style:width={minimised ? 150 + 'px' : maximised ? '100vw' : width + 'px'}
-	style:height={minimised ? 23 + 'px' : maximised ? '100vh' : height + 'px'}
+	style:left={maximised ? 0 : x + 'px'}
+	style:top={maximised ? 0 : y + 'px'}
+	style:width={width + 'px'}
+	style:height={height + 'px'}
 	style:z-index={zIndex}
 >
 	<div
@@ -324,16 +323,14 @@
 		role="button"
 		tabindex="0"
 	>
-		<h2>{text}</h2>
-		{#if !minimised}
-			<div class="control-container">
-				<button on:click={leftClickOnly(handleMinimiseToggleClick)}>_</button>
-				<button on:click={leftClickOnly(handleMaximiseToggleClick)}>[ ]</button>
-				<button on:click={leftClickOnly(handleCloseClick)}>X</button>
-			</div>
-		{/if}
+		<h2>{title}</h2>
+		<div class="control-container">
+			<button on:click={leftClickOnly(handleMinimiseToggleClick)}>_</button>
+			<button on:click={leftClickOnly(handleMaximiseToggleClick)}>[ ]</button>
+			<button on:click={leftClickOnly(handleCloseClick)}>X</button>
+		</div>
 	</div>
-	<div class="inner" class:minimised>
+	<div class="inner">
 		<slot>
 			<em>404 – page not found</em>
 		</slot>
@@ -352,8 +349,8 @@
 		<button class="resize-bottom" on:mousedown={leftClickOnly(handleResizeBottomStart)} />
 		<button class="resize-left" on:mousedown={leftClickOnly(handleResizeLeftStart)} />
 		<button class="resize-top-right" on:mousedown={leftClickOnly(handleResizeTopRightStart)} />
-		<button class="resize-bottom-right" on:mousedown={leftClickOnly(handleResizeBottomRightStart)}
-			>R
+		<button class="resize-bottom-right" on:mousedown={leftClickOnly(handleResizeBottomRightStart)}>
+			R
 		</button>
 		<button class="resize-bottom-left" on:mousedown={leftClickOnly(handleResizeBottomLeftStart)} />
 		<button class="resize-top-left" on:mousedown={leftClickOnly(handleResizeTopLeftStart)} />
@@ -368,12 +365,12 @@
 		pointer-events: auto;
 	}
 
-	.window:not(.active):not(.minimised) {
+	.window:not(.active) {
 		filter: grayscale(100%) brightness(85%);
 		border-color: #888;
 	}
 
-	.window:not(.active):not(.minimised) > .title-bar {
+	.window:not(.active) > .title-bar {
 		background: #444;
 	}
 
@@ -389,9 +386,15 @@
 	}
 
 	.window.minimised {
-		position: relative;
-		display: inline-block;
-		margin-right: 1px;
+		visibility: hidden;
+	}
+
+	.window.maximised {
+		position: fixed;
+		top: 0 !important;
+		left: 0 !important;
+		width: 100vw !important;
+		height: 100vh !important;
 	}
 
 	.title-bar {
@@ -548,9 +551,5 @@
 		padding: 0;
 		margin: 0;
 		cursor: nwse-resize;
-	}
-
-	.inner.minimised {
-		display: none;
 	}
 </style>

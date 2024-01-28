@@ -1,13 +1,14 @@
 import type { ComponentType } from 'svelte';
 
 export type ContentWindow = {
-	text: string;
+	title: string;
 	component: ComponentType;
 	initX: number;
 	initY: number;
 	initWidth: number;
 	initHeight: number;
 	minimised: boolean;
+	maximised: boolean;
 	zIndex: number;
 	links?: Links;
 };

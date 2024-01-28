@@ -19,12 +19,12 @@
 	<div class="buttonContainer">
 		<slot name="first-button" />
 		{#if $isWindowMode}
-			{#each Object.entries(links) as [path, { text }]}
-				<button on:click={handleLinkClick(path)} class:active={path === selected}>{text}</button>
+			{#each Object.entries(links) as [path, { title }]}
+				<button on:click={handleLinkClick(path)} class:active={path === selected}>{title}</button>
 			{/each}
 		{:else}
-			{#each Object.entries(links) as [path, { text }]}
-				<a href={path} class:active={path === selected} on:click={handleLinkClick(path)}>{text}</a>
+			{#each Object.entries(links) as [path, { title }]}
+				<a href={path} class:active={path === selected} on:click={handleLinkClick(path)}>{title}</a>
 			{/each}
 		{/if}
 	</div>
