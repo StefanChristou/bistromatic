@@ -1,12 +1,12 @@
 <script lang="ts">
-	import Switch from './Switch.svelte';
-	import { isWindowModeAllowed, isWindowModeSet } from '../../../ui-store';
+	import Switch from './shared/Switch.svelte';
+	import { isWindowModeAllowed, isWindowModeSet } from '../../ui-store';
 	import { onMount } from 'svelte';
-	import { setSearchParam, getSearchParam } from '../../helpers/uri-param-helpers';
-	import { isDesktopWidth } from '../../helpers/isDesktopWidth';
+	import { setSearchParam, getSearchParam } from '../helpers/uri-param-helpers';
+	import { isTabletWidth } from '../helpers/isTabletWidth';
 
 	let innerWidth = 0;
-	$: isWindowModeAllowed.set(isDesktopWidth(innerWidth));
+	$: isWindowModeAllowed.set(isTabletWidth(innerWidth));
 
 	onMount(() => {
 		const windowParam = getSearchParam('window-mode');
