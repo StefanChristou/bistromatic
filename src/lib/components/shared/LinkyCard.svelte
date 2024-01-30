@@ -22,6 +22,10 @@
 </div>
 
 <style>
+	img {
+		width: 100%;
+	}
+
 	.card {
 		display: inline-block;
 		width: 300px;
@@ -29,20 +33,23 @@
 		position: relative;
 		box-sizing: content-box;
 		margin: 0 1rem 1rem 0;
+		transition: all 150ms ease-out;
 	}
 
-	img {
-		width: 100%;
+	.card:hover {
+		box-shadow: 5px 5px black;
+		transform: translate(-5px, -5px);
+	}
+
+	.card:active {
+		transform: translate(0, 0);
+		box-shadow: 0 0 black;
 	}
 
 	.text-container {
 		padding: 1rem;
 		position: absolute;
 		display: none;
-	}
-
-	.card:hover {
-		box-shadow: 5px 5px black;
 	}
 
 	.card:hover .text-container {
