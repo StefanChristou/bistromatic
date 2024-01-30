@@ -20,7 +20,7 @@
 </script>
 
 <div class="wrapper">
-	<h3>{title}</h3>
+	<h3 data-testid="minimised-window-title">{title}</h3>
 	<div class="control-container">
 		<button on:click={leftClickOnly(dispatchOpen)}>_</button>
 		<button on:click={leftClickOnly(dispatchMaximise)}>[ ]</button>

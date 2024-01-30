@@ -322,11 +322,18 @@
 		role="button"
 		tabindex="0"
 	>
-		<h2>{title}</h2>
+		<h2 data-testid="window-title">{title}</h2>
 		<div class="control-container">
-			<button on:click={leftClickOnly(handleMinimiseToggleClick)}>_</button>
-			<button data-testid="maximise-button" on:click={leftClickOnly(handleMaximiseToggleClick)}>[ ]</button>
-			<button on:click={leftClickOnly(handleCloseClick)}>X</button>
+			<button
+				data-testid="window-minimise-button"
+				on:click={leftClickOnly(handleMinimiseToggleClick)}>_</button
+			>
+			<button
+				data-testid="window-maximise-button"
+				on:click={leftClickOnly(handleMaximiseToggleClick)}>[ ]</button
+			>
+			<button data-testid="window-close-button" on:click={leftClickOnly(handleCloseClick)}>X</button
+			>
 		</div>
 	</div>
 	<div class="inner">
