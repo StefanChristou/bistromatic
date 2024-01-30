@@ -246,8 +246,7 @@
 	// Handlers for the window controls //
 	// Move //
 	function handleMoveStart(event: MouseEvent): void {
-		if (minimised) {
-			dispatchActive();
+		if (maximised) {
 			return;
 		}
 		eventMousePosition = { x: event.clientX, y: event.clientY };
@@ -323,11 +322,18 @@
 		role="button"
 		tabindex="0"
 	>
-		<h2>{title}</h2>
+		<h2 data-testid="window-title">{title}</h2>
 		<div class="control-container">
-			<button on:click={leftClickOnly(handleMinimiseToggleClick)}>_</button>
-			<button on:click={leftClickOnly(handleMaximiseToggleClick)}>[ ]</button>
-			<button on:click={leftClickOnly(handleCloseClick)}>X</button>
+			<button
+				data-testid="window-minimise-button"
+				on:click={leftClickOnly(handleMinimiseToggleClick)}>_</button
+			>
+			<button
+				data-testid="window-maximise-button"
+				on:click={leftClickOnly(handleMaximiseToggleClick)}>[ ]</button
+			>
+			<button data-testid="window-close-button" on:click={leftClickOnly(handleCloseClick)}>X</button
+			>
 		</div>
 	</div>
 	<div class="inner">
@@ -406,6 +412,10 @@
 		position: relative;
 		user-select: none;
 		cursor: move;
+	}
+
+	.window.maximised .title-bar {
+		cursor: default;
 	}
 
 	.control-container {

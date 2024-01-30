@@ -71,7 +71,7 @@
 		organisations I’ve worked with use <span class="acronym">SCRUM</span>, but I also have
 		experience with Kanban and other processes. <span class="acronym">SCRUM</span> can be especially
 		useful in agency environments and when working with outsourced teams. Kanban can also work extremely
-		well especially when multi-disciplinary teams are able to be properly aligned with the companies
+		well especially when multi-disciplinary teams are able to be properly aligned with the company's
 		goals and are able to get up close and personal with users and stakeholders. In any case, sticking
 		to agile principles of continuous delivery and self-organisation is key to the successful application
 		of whichever methodology a team uses.</Paragraph

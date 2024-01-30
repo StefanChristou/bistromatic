@@ -4,7 +4,7 @@
 	import Window from './Window.svelte';
 	import { allLinks, mainLinks } from './window-controller-links';
 	import { isWindowMode } from '../../ui-store';
-	import WindowModeToggle from './shared/WindowModeToggle.svelte';
+	import WindowModeToggle from './WindowModeToggle.svelte';
 	import { goto } from '$app/navigation';
 	import PageHeading from './shared/PageHeading.svelte';
 	import LinkLikeButton from './shared/LinkLikeButton.svelte';
