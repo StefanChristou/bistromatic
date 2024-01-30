@@ -372,7 +372,7 @@
 	}
 
 	.window:not(.active) {
-		filter: grayscale(100%) brightness(85%);
+		filter: brightness(110%) blur(1px) sepia(50%);
 		border-color: #888;
 	}
 
