@@ -19,6 +19,7 @@ test('should not render the window mode toggle when the screen width is lesser t
     width: 767,
     height: 700
   });
+  await page.waitForTimeout(300);
   const toggleExists = await page.getByText('Window mode').isVisible();
   expect(toggleExists).toBe(false);
 });

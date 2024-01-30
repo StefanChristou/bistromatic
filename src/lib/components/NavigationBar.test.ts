@@ -30,9 +30,10 @@ test('should render navigation anchors when the screen width is greater than 767
 test('should render navigation anchors when the screen width is less than 768px', async ({page}) => {
   await page.goto('');
   await page.setViewportSize({
-    width: 700,
+    width: 767,
     height: 700
   });
+  await page.waitForTimeout(300);
   const anchorExists = await page.locator('nav a >> nth=1').isVisible();
   expect(anchorExists).toBe(true);
 });
