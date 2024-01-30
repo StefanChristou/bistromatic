@@ -36,6 +36,8 @@
 
 	let eventMousePosition = { x: 0, y: 0 };
 
+	let allowTransitions = true;
+
 	$: allowResize = !minimised && !maximised;
 	$: showWhiteOut = !active && !minimised && !maximised;
 
@@ -233,6 +235,7 @@
 	// Add/remove event listeners for resizing/moving
 	// Add
 	function addMoveAndUpEventListeners(moveCallback: typeof moveWindow): void {
+		allowTransitions = false;
 		window.onmousemove = moveCallback;
 		window.onmouseup = removeMoveAndUpEventListeners;
 	}
@@ -241,6 +244,7 @@
 	function removeMoveAndUpEventListeners(): void {
 		window.onmousemove = null;
 		window.onmouseup = null;
+		allowTransitions = true;
 	}
 
 	// Handlers for the window controls //
@@ -310,8 +314,8 @@
 	class:minimised
 	class:maximised
 	class:active
-	style:left={maximised ? 0 : x + 'px'}
-	style:top={maximised ? 0 : y + 'px'}
+	class:allowTransitions
+	style:transform={`translate(${maximised ? 0 : x}px, ${maximised ? 0 : y}px)`}
 	style:width={width + 'px'}
 	style:height={height + 'px'}
 	style:z-index={zIndex}
@@ -369,6 +373,10 @@
 		border: 1px solid black;
 		position: absolute;
 		pointer-events: auto;
+	}
+
+	.window.allowTransitions {
+		transition: width 150ms ease-out, height 150ms ease-out, transform 150ms ease-out;
 	}
 
 	.window:not(.active) {
