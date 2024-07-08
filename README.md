@@ -6,6 +6,20 @@ This is the source code for stefanchristou.com. A personal portfolio website bui
 
 This project requires node v18.
 
+Use nvm to make sure you are using the correct node version.
+
+```bash
+nvm use
+```
+
+## Installation
+
+Install project dependencies with your preferred javascript package manager, this was built using npm.
+
+```bash
+npm i
+```
+
 ## Developing
 
 Once you've cloned the project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
